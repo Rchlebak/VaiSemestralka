@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="sk">
 <head>
@@ -32,124 +33,124 @@
 
 <!-- Modal for create/edit product -->
 <div class="modal fade" id="productModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-xl">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="productModalLabel">Nový produkt</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-          <!-- Product info -->
-          <div class="col-md-6">
-            <h6>Základné informácie</h6>
-            <form id="product-form">
-              <input type="hidden" id="product-id">
-              <div class="mb-3">
-                <label class="form-label">Názov *</label>
-                <input id="product-name" class="form-control" required>
-              </div>
-              <div class="row">
-                <div class="col-6 mb-3">
-                  <label class="form-label">Cena (€) *</label>
-                  <input id="product-price" type="number" step="0.01" class="form-control" required>
-                </div>
-                <div class="col-6 mb-3">
-                  <label class="form-label">SKU / Model</label>
-                  <input id="product-sku" class="form-control">
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-6 mb-3">
-                  <label class="form-label">Značka</label>
-                  <input id="product-brand" class="form-control">
-                </div>
-                <div class="col-6 mb-3">
-                  <label class="form-label">Pohlavie</label>
-                  <select id="product-gender" class="form-select">
-                    <option value="unisex">unisex</option>
-                    <option value="men">men</option>
-                    <option value="women">women</option>
-                  </select>
-                </div>
-              </div>
-              <div class="mb-3">
-                <label class="form-label">URL obrázka</label>
-                <input id="product-image" class="form-control" placeholder="https://...">
-                <div id="image-preview" class="mt-2"></div>
-              </div>
-              <div class="mb-3">
-                <label class="form-label">Popis</label>
-                <textarea id="product-desc" class="form-control" rows="3"></textarea>
-              </div>
-              <div class="form-check mb-3">
-                <input class="form-check-input" type="checkbox" value="1" id="product-active" checked>
-                <label class="form-check-label" for="product-active">Aktívny</label>
-              </div>
-            </form>
-          </div>
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="productModalLabel">Nový produkt</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <!-- Product info -->
+                    <div class="col-md-6">
+                        <h6>Základné informácie</h6>
+                        <form id="product-form">
+                            <input type="hidden" id="product-id">
+                            <div class="mb-3">
+                                <label class="form-label">Názov *</label>
+                                <input id="product-name" class="form-control" required>
+                            </div>
+                            <div class="row">
+                                <div class="col-6 mb-3">
+                                    <label class="form-label">Cena (€) *</label>
+                                    <input id="product-price" type="number" step="0.01" class="form-control" required>
+                                </div>
+                                <div class="col-6 mb-3">
+                                    <label class="form-label">SKU / Model</label>
+                                    <input id="product-sku" class="form-control">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6 mb-3">
+                                    <label class="form-label">Značka</label>
+                                    <input id="product-brand" class="form-control">
+                                </div>
+                                <div class="col-6 mb-3">
+                                    <label class="form-label">Pohlavie</label>
+                                    <select id="product-gender" class="form-select">
+                                        <option value="unisex">unisex</option>
+                                        <option value="men">men</option>
+                                        <option value="women">women</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">URL obrázka</label>
+                                <input id="product-image" class="form-control" placeholder="https://...">
+                                <div id="image-preview" class="mt-2"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Popis</label>
+                                <textarea id="product-desc" class="form-control" rows="3"></textarea>
+                            </div>
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="checkbox" value="1" id="product-active" checked>
+                                <label class="form-check-label" for="product-active">Aktívny</label>
+                            </div>
+                        </form>
+                    </div>
 
-          <!-- Variants -->
-          <div class="col-md-6">
-            <h6>Varianty produktu</h6>
-            <div id="variants-section" style="display:none;">
-              <div id="variants-list" class="variant-list mb-3"></div>
-              <hr>
-              <h6>Pridať nový variant</h6>
-              <div class="row g-2">
-                <div class="col-4">
-                  <input id="new-variant-color" class="form-control form-control-sm" placeholder="Farba (napr. black)">
+                    <!-- Variants -->
+                    <div class="col-md-6">
+                        <h6>Varianty produktu</h6>
+                        <div id="variants-section" style="display:none;">
+                            <div id="variants-list" class="variant-list mb-3"></div>
+                            <hr>
+                            <h6>Pridať nový variant</h6>
+                            <div class="row g-2">
+                                <div class="col-4">
+                                    <input id="new-variant-color" class="form-control form-control-sm" placeholder="Farba (napr. black)">
+                                </div>
+                                <div class="col-3">
+                                    <input id="new-variant-size" class="form-control form-control-sm" placeholder="Veľkosť (42)">
+                                </div>
+                                <div class="col-3">
+                                    <input id="new-variant-stock" type="number" class="form-control form-control-sm" placeholder="Stock" value="0">
+                                </div>
+                                <div class="col-2">
+                                    <button id="btn-add-variant" class="btn btn-sm btn-success w-100">+</button>
+                                </div>
+                            </div>
+                            <small class="text-muted">SKU sa vygeneruje automaticky</small>
+                        </div>
+                        <div id="variants-notice" class="alert alert-info">
+                            Najprv uložte produkt, potom môžete pridávať varianty.
+                        </div>
+                    </div>
                 </div>
-                <div class="col-3">
-                  <input id="new-variant-size" class="form-control form-control-sm" placeholder="Veľkosť (42)">
-                </div>
-                <div class="col-3">
-                  <input id="new-variant-stock" type="number" class="form-control form-control-sm" placeholder="Stock" value="0">
-                </div>
-                <div class="col-2">
-                  <button id="btn-add-variant" class="btn btn-sm btn-success w-100">+</button>
-                </div>
-              </div>
-              <small class="text-muted">SKU sa vygeneruje automaticky</small>
             </div>
-            <div id="variants-notice" class="alert alert-info">
-              Najprv uložte produkt, potom môžete pridávať varianty.
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zrušiť</button>
+                <button type="button" id="save-product" class="btn btn-primary">Uložiť produkt</button>
             </div>
-          </div>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zrušiť</button>
-        <button type="button" id="save-product" class="btn btn-primary">Uložiť produkt</button>
-      </div>
     </div>
-  </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-const modalEl = document.getElementById('productModal');
-const productModal = new bootstrap.Modal(modalEl);
-let currentProductId = null;
+    const modalEl = document.getElementById('productModal');
+    const productModal = new bootstrap.Modal(modalEl);
+    let currentProductId = null;
 
-// Image preview
-document.getElementById('product-image').addEventListener('input', (e) => {
-    const url = e.target.value.trim();
-    const preview = document.getElementById('image-preview');
-    if(url) {
-        preview.innerHTML = `<img src="${url}" style="max-height:100px;border-radius:6px;" onerror="this.style.display='none'">`;
-    } else {
-        preview.innerHTML = '';
-    }
-});
+    // Image preview
+    document.getElementById('product-image').addEventListener('input', (e) => {
+        const url = e.target.value.trim();
+        const preview = document.getElementById('image-preview');
+        if(url) {
+            preview.innerHTML = `<img src="${url}" style="max-height:100px;border-radius:6px;" onerror="this.style.display='none'">`;
+        } else {
+            preview.innerHTML = '';
+        }
+    });
 
-async function loadList(){
-    const res = await fetch('/api/admin_products.php');
-    const j = await res.json();
-    const el = document.getElementById('admin-list');
-    if(!j.ok){ el.innerHTML = '<div class="alert alert-danger">'+(j.error||'Chyba načítania')+'</div>'; return; }
+    async function loadList(){
+        const res = await fetch('/api/admin_products.php');
+        const j = await res.json();
+        const el = document.getElementById('admin-list');
+        if(!j.ok){ el.innerHTML = '<div class="alert alert-danger">'+(j.error||'Chyba načítania')+'</div>'; return; }
 
-    el.innerHTML = `<table class="table table-hover">
+        el.innerHTML = `<table class="table table-hover">
         <thead class="table-light">
             <tr>
                 <th>ID</th>
@@ -181,78 +182,78 @@ async function loadList(){
         </tbody>
     </table>`;
 
-    // Load variant counts
-    j.data.forEach(async (p) => {
-        const vRes = await fetch('/api/admin_variants.php?product_id=' + p.id);
-        const vData = await vRes.json();
-        const countEl = document.getElementById('variant-count-' + p.id);
-        if(countEl && vData.ok) {
-            const totalStock = vData.data.reduce((s, v) => s + parseInt(v.stock_qty || 0), 0);
-            countEl.textContent = vData.data.length + ' var. / ' + totalStock + ' ks';
-            countEl.className = totalStock > 0 ? 'badge bg-success' : 'badge bg-warning';
-        }
-    });
-
-    // Bind delete
-    el.querySelectorAll('.btn-del').forEach(b => b.addEventListener('click', async () => {
-        if(!confirm('Naozaj zmazať tento produkt?')) return;
-        const id = b.dataset.id;
-        const res = await fetch('/api/admin_products.php', {
-            method: 'DELETE',
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            body: 'id=' + encodeURIComponent(id)
+        // Load variant counts
+        j.data.forEach(async (p) => {
+            const vRes = await fetch('/api/admin_variants.php?product_id=' + p.id);
+            const vData = await vRes.json();
+            const countEl = document.getElementById('variant-count-' + p.id);
+            if(countEl && vData.ok) {
+                const totalStock = vData.data.reduce((s, v) => s + parseInt(v.stock_qty || 0), 0);
+                countEl.textContent = vData.data.length + ' var. / ' + totalStock + ' ks';
+                countEl.className = totalStock > 0 ? 'badge bg-success' : 'badge bg-warning';
+            }
         });
-        const j = await res.json();
-        if(j.ok) loadList();
-        else alert(j.error || 'Chyba pri mazaní');
-    }));
 
-    // Bind edit
-    el.querySelectorAll('.btn-edit').forEach(b => b.addEventListener('click', async () => {
-        const id = b.dataset.id;
-        const resp = await fetch('/api/product.php?id=' + encodeURIComponent(id));
-        const data = await resp.json();
-        if(!data.ok) { alert('Nepodarilo sa načítať produkt'); return; }
+        // Bind delete
+        el.querySelectorAll('.btn-del').forEach(b => b.addEventListener('click', async () => {
+            if(!confirm('Naozaj zmazať tento produkt?')) return;
+            const id = b.dataset.id;
+            const res = await fetch('/api/admin_products.php', {
+                method: 'DELETE',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                body: 'id=' + encodeURIComponent(id)
+            });
+            const j = await res.json();
+            if(j.ok) loadList();
+            else alert(j.error || 'Chyba pri mazaní');
+        }));
 
-        const p = data.data.product;
-        currentProductId = p.product_id;
+        // Bind edit
+        el.querySelectorAll('.btn-edit').forEach(b => b.addEventListener('click', async () => {
+            const id = b.dataset.id;
+            const resp = await fetch('/api/product.php?id=' + encodeURIComponent(id));
+            const data = await resp.json();
+            if(!data.ok) { alert('Nepodarilo sa načítať produkt'); return; }
 
-        document.getElementById('product-id').value = p.product_id;
-        document.getElementById('product-name').value = p.name || '';
-        document.getElementById('product-price').value = p.base_price || '';
-        document.getElementById('product-sku').value = p.sku_model || '';
-        document.getElementById('product-brand').value = p.brand || '';
-        document.getElementById('product-gender').value = p.gender || 'unisex';
-        document.getElementById('product-image').value = (Array.isArray(data.data.images) && data.data.images.length > 0) ? data.data.images[0] : '';
-        document.getElementById('product-desc').value = p.description || '';
-        document.getElementById('product-active').checked = p.is_active ? true : false;
-        document.getElementById('productModalLabel').textContent = 'Upraviť produkt #' + p.product_id;
+            const p = data.data.product;
+            currentProductId = p.product_id;
 
-        // Show variants section
-        document.getElementById('variants-section').style.display = 'block';
-        document.getElementById('variants-notice').style.display = 'none';
+            document.getElementById('product-id').value = p.product_id;
+            document.getElementById('product-name').value = p.name || '';
+            document.getElementById('product-price').value = p.base_price || '';
+            document.getElementById('product-sku').value = p.sku_model || '';
+            document.getElementById('product-brand').value = p.brand || '';
+            document.getElementById('product-gender').value = p.gender || 'unisex';
+            document.getElementById('product-image').value = (Array.isArray(data.data.images) && data.data.images.length > 0) ? data.data.images[0] : '';
+            document.getElementById('product-desc').value = p.description || '';
+            document.getElementById('product-active').checked = p.is_active ? true : false;
+            document.getElementById('productModalLabel').textContent = 'Upraviť produkt #' + p.product_id;
 
-        // Load variants
-        loadVariants(p.product_id);
+            // Show variants section
+            document.getElementById('variants-section').style.display = 'block';
+            document.getElementById('variants-notice').style.display = 'none';
 
-        // Image preview
-        document.getElementById('product-image').dispatchEvent(new Event('input'));
+            // Load variants
+            loadVariants(p.product_id);
 
-        productModal.show();
-    }));
-}
+            // Image preview
+            document.getElementById('product-image').dispatchEvent(new Event('input'));
 
-async function loadVariants(productId) {
-    const res = await fetch('/api/admin_variants.php?product_id=' + productId);
-    const data = await res.json();
-    const container = document.getElementById('variants-list');
-
-    if(!data.ok || data.data.length === 0) {
-        container.innerHTML = '<div class="text-muted">Žiadne varianty</div>';
-        return;
+            productModal.show();
+        }));
     }
 
-    container.innerHTML = data.data.map(v => `
+    async function loadVariants(productId) {
+        const res = await fetch('/api/admin_variants.php?product_id=' + productId);
+        const data = await res.json();
+        const container = document.getElementById('variants-list');
+
+        if(!data.ok || data.data.length === 0) {
+            container.innerHTML = '<div class="text-muted">Žiadne varianty</div>';
+            return;
+        }
+
+        container.innerHTML = data.data.map(v => `
         <div class="variant-row d-flex align-items-center gap-2">
             <div class="flex-grow-1">
                 <strong>${v.color}</strong> / Veľkosť: <strong>${v.size_eu}</strong>
@@ -274,162 +275,223 @@ async function loadVariants(productId) {
         </div>
     `).join('');
 
-    // Bind save stock
-    container.querySelectorAll('.btn-save-stock').forEach(b => {
-        b.addEventListener('click', async () => {
-            const vid = b.dataset.vid;
-            const input = container.querySelector(`.stock-input[data-vid="${vid}"]`);
-            const stock = parseInt(input.value) || 0;
+        // Bind save stock
+        container.querySelectorAll('.btn-save-stock').forEach(b => {
+            b.addEventListener('click', async () => {
+                const vid = b.dataset.vid;
+                const input = container.querySelector(`.stock-input[data-vid="${vid}"]`);
+                const stock = parseInt(input.value) || 0;
 
-            const res = await fetch('/api/admin_variants.php', {
-                method: 'PUT',
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                body: `variant_id=${vid}&stock_qty=${stock}`
+                const res = await fetch('/api/admin_variants.php', {
+                    method: 'PUT',
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    body: `variant_id=${vid}&stock_qty=${stock}`
+                });
+                const data = await res.json();
+                if(data.ok) {
+                    loadVariants(currentProductId);
+                } else {
+                    alert(data.error || 'Chyba pri ukladaní');
+                }
             });
-            const data = await res.json();
-            if(data.ok) {
-                loadVariants(currentProductId);
-            } else {
-                alert(data.error || 'Chyba pri ukladaní');
-            }
         });
-    });
 
-    // Bind delete variant
-    container.querySelectorAll('.btn-del-variant').forEach(b => {
-        b.addEventListener('click', async () => {
-            if(!confirm('Zmazať tento variant?')) return;
-            const vid = b.dataset.vid;
-            const res = await fetch('/api/admin_variants.php', {
-                method: 'DELETE',
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                body: 'variant_id=' + vid
+        // Bind delete variant
+        container.querySelectorAll('.btn-del-variant').forEach(b => {
+            b.addEventListener('click', async () => {
+                if(!confirm('Zmazať tento variant?')) return;
+                const vid = b.dataset.vid;
+                const res = await fetch('/api/admin_variants.php', {
+                    method: 'DELETE',
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    body: 'variant_id=' + vid
+                });
+                const data = await res.json();
+                if(data.ok) {
+                    loadVariants(currentProductId);
+                } else {
+                    alert(data.error || 'Chyba pri mazaní');
+                }
             });
-            const data = await res.json();
-            if(data.ok) {
-                loadVariants(currentProductId);
-            } else {
-                alert(data.error || 'Chyba pri mazaní');
-            }
         });
-    });
-}
-
-// Add new variant
-document.getElementById('btn-add-variant').addEventListener('click', async () => {
-    if(!currentProductId) { alert('Najprv uložte produkt'); return; }
-
-    const color = document.getElementById('new-variant-color').value.trim();
-    const size = document.getElementById('new-variant-size').value.trim();
-    const stock = parseInt(document.getElementById('new-variant-stock').value) || 0;
-
-    if(!color || !size) {
-        alert('Farba a veľkosť sú povinné');
-        return;
     }
 
-    // Generate SKU
-    const sku = `SKU${currentProductId}-${color.toUpperCase().substring(0,3)}-${size}`;
+    // Add new variant
+    document.getElementById('btn-add-variant').addEventListener('click', async () => {
+        if(!currentProductId) { alert('Najprv uložte produkt'); return; }
 
-    const res = await fetch('/api/admin_variants.php', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-            product_id: currentProductId,
-            sku: sku,
-            color: color,
-            size_eu: size,
-            stock_qty: stock,
-            is_active: 1
-        })
-    });
+        const color = document.getElementById('new-variant-color').value.trim();
+        const size = document.getElementById('new-variant-size').value.trim();
+        const stock = parseInt(document.getElementById('new-variant-stock').value) || 0;
 
-    const data = await res.json();
-    if(data.ok) {
-        document.getElementById('new-variant-color').value = '';
-        document.getElementById('new-variant-size').value = '';
-        document.getElementById('new-variant-stock').value = '0';
-        loadVariants(currentProductId);
-    } else {
-        alert(data.error || 'Chyba pri pridávaní variantu');
-    }
-});
-
-document.getElementById('btn-refresh').addEventListener('click', loadList);
-
-document.getElementById('btn-new').addEventListener('click', () => {
-    document.getElementById('product-form').reset();
-    document.getElementById('product-id').value = '';
-    document.getElementById('productModalLabel').textContent = 'Nový produkt';
-    document.getElementById('variants-section').style.display = 'none';
-    document.getElementById('variants-notice').style.display = 'block';
-    document.getElementById('image-preview').innerHTML = '';
-    currentProductId = null;
-    productModal.show();
-});
-
-document.getElementById('save-product').addEventListener('click', async () => {
-    const id = document.getElementById('product-id').value;
-    const payload = {
-        name: document.getElementById('product-name').value.trim(),
-        price: parseFloat(document.getElementById('product-price').value) || 0,
-        sku_model: document.getElementById('product-sku').value.trim(),
-        brand: document.getElementById('product-brand').value.trim(),
-        gender: document.getElementById('product-gender').value,
-        image_url: document.getElementById('product-image').value.trim(),
-        description: document.getElementById('product-desc').value.trim(),
-        is_active: document.getElementById('product-active').checked ? 1 : 0
-    };
-
-    if(!payload.name || !payload.price) {
-        alert('Názov a cena sú povinné');
-        return;
-    }
-
-    if(id) {
-        // PUT update
-        const params = new URLSearchParams();
-        params.append('id', id);
-        Object.keys(payload).forEach(k => params.append(k, payload[k]));
-
-        const res = await fetch('/api/admin_products.php', {
-            method: 'PUT',
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            body: params.toString()
-        });
-        const j = await res.json();
-        if(j.ok) {
-            productModal.hide();
-            loadList();
-        } else {
-            alert(j.error || 'Chyba pri ukladaní');
+        if(!color || !size) {
+            alert('Farba a veľkosť sú povinné');
+            return;
         }
-    } else {
-        // POST create
-        const res = await fetch('/api/admin_products.php', {
+
+        // Generate SKU
+        const sku = `SKU${currentProductId}-${color.toUpperCase().substring(0,3)}-${size}`;
+
+        const res = await fetch('/api/admin_variants.php', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(payload)
+            body: JSON.stringify({
+                product_id: currentProductId,
+                sku: sku,
+                color: color,
+                size_eu: size,
+                stock_qty: stock,
+                is_active: 1
+            })
         });
-        const j = await res.json();
-        if(j.ok) {
-            // Set the new product ID so variants can be added
-            currentProductId = j.id;
-            document.getElementById('product-id').value = j.id;
-            document.getElementById('productModalLabel').textContent = 'Upraviť produkt #' + j.id;
-            document.getElementById('variants-section').style.display = 'block';
-            document.getElementById('variants-notice').style.display = 'none';
-            document.getElementById('variants-list').innerHTML = '<div class="text-muted">Žiadne varianty - pridajte prvý variant</div>';
-            alert('Produkt bol vytvorený! Teraz môžete pridať varianty.');
-            loadList();
-        } else {
-            alert(j.error || 'Chyba pri vytváraní produktu');
-        }
-    }
-});
 
-// Initial load
-loadList();
+        const data = await res.json();
+        if(data.ok) {
+            document.getElementById('new-variant-color').value = '';
+            document.getElementById('new-variant-size').value = '';
+            document.getElementById('new-variant-stock').value = '0';
+            loadVariants(currentProductId);
+        } else {
+            alert(data.error || 'Chyba pri pridávaní variantu');
+        }
+    });
+
+    document.getElementById('btn-refresh').addEventListener('click', loadList);
+
+    document.getElementById('btn-new').addEventListener('click', () => {
+        document.getElementById('product-form').reset();
+        document.getElementById('product-id').value = '';
+        document.getElementById('productModalLabel').textContent = 'Nový produkt';
+        document.getElementById('variants-section').style.display = 'none';
+        document.getElementById('variants-notice').style.display = 'block';
+        document.getElementById('image-preview').innerHTML = '';
+        currentProductId = null;
+        productModal.show();
+    });
+
+    document.getElementById('save-product').addEventListener('click', async () => {
+        const id = document.getElementById('product-id').value;
+
+        // Get form values
+        const nameEl = document.getElementById('product-name');
+        const priceEl = document.getElementById('product-price');
+        const skuEl = document.getElementById('product-sku');
+        const brandEl = document.getElementById('product-brand');
+        const imageEl = document.getElementById('product-image');
+
+        const payload = {
+            name: nameEl.value.trim(),
+            price: parseFloat(priceEl.value) || 0,
+            sku_model: skuEl.value.trim(),
+            brand: brandEl.value.trim(),
+            gender: document.getElementById('product-gender').value,
+            image_url: imageEl.value.trim(),
+            description: document.getElementById('product-desc').value.trim(),
+            is_active: document.getElementById('product-active').checked ? 1 : 0
+        };
+
+        // Client-side validation
+        let errors = [];
+
+        // Reset validation styles
+        [nameEl, priceEl, skuEl, brandEl, imageEl].forEach(el => el.classList.remove('is-invalid'));
+
+        // Validate name
+        if(payload.name.length < 2) {
+            errors.push('Názov je povinný (min. 2 znaky)');
+            nameEl.classList.add('is-invalid');
+        } else if(payload.name.length > 200) {
+            errors.push('Názov je príliš dlhý (max. 200 znakov)');
+            nameEl.classList.add('is-invalid');
+        }
+
+        // Validate price
+        if(payload.price <= 0) {
+            errors.push('Cena musí byť kladné číslo');
+            priceEl.classList.add('is-invalid');
+        } else if(payload.price > 99999.99) {
+            errors.push('Cena je príliš vysoká');
+            priceEl.classList.add('is-invalid');
+        }
+
+        // Validate SKU length
+        if(payload.sku_model.length > 84) {
+            errors.push('SKU je príliš dlhé (max. 84 znakov)');
+            skuEl.classList.add('is-invalid');
+        }
+
+        // Validate brand length
+        if(payload.brand.length > 200) {
+            errors.push('Značka je príliš dlhá (max. 200 znakov)');
+            brandEl.classList.add('is-invalid');
+        }
+
+        // Validate image URL if provided
+        if(payload.image_url && !payload.image_url.match(/^https?:\/\/.+/)) {
+            errors.push('Neplatná URL adresa obrázka');
+            imageEl.classList.add('is-invalid');
+        }
+
+        // Show errors if any
+        if(errors.length > 0) {
+            alert('Opravte chyby:\n• ' + errors.join('\n• '));
+            return;
+        }
+
+        if(id) {
+            // PUT update
+            const params = new URLSearchParams();
+            params.append('id', id);
+            Object.keys(payload).forEach(k => params.append(k, payload[k]));
+
+            const res = await fetch('/api/admin_products.php', {
+                method: 'PUT',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                body: params.toString()
+            });
+            const j = await res.json();
+            if(j.ok) {
+                productModal.hide();
+                loadList();
+            } else {
+                // Show server validation errors
+                if(j.errors) {
+                    alert('Chyby:\n• ' + Object.values(j.errors).join('\n• '));
+                } else {
+                    alert(j.error || 'Chyba pri ukladaní');
+                }
+            }
+        } else {
+            // POST create
+            const res = await fetch('/api/admin_products.php', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(payload)
+            });
+            const j = await res.json();
+            if(j.ok) {
+                // Set the new product ID so variants can be added
+                currentProductId = j.id;
+                document.getElementById('product-id').value = j.id;
+                document.getElementById('productModalLabel').textContent = 'Upraviť produkt #' + j.id;
+                document.getElementById('variants-section').style.display = 'block';
+                document.getElementById('variants-notice').style.display = 'none';
+                document.getElementById('variants-list').innerHTML = '<div class="text-muted">Žiadne varianty - pridajte prvý variant</div>';
+                alert('Produkt bol vytvorený! Teraz môžete pridať varianty.');
+                loadList();
+            } else {
+                // Show server validation errors
+                if(j.errors) {
+                    alert('Chyby:\n• ' + Object.values(j.errors).join('\n• '));
+                } else {
+                    alert(j.error || 'Chyba pri vytváraní produktu');
+                }
+            }
+        }
+    });
+
+    // Initial load
+    loadList();
 </script>
 </body>
 </html>

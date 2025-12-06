@@ -55,7 +55,14 @@ while ($attempt -lt $maxAttempts) {
 
 # Verify API
 Write-Host ""
-Write-Host "[4/4] Overujem API..." -ForegroundColor Yellow
+Write-Host "[4/4] Overujem API a spustam migracie..." -ForegroundColor Yellow
+
+# Run product_images migration
+Write-Host "Spustam migraciu product_images..." -ForegroundColor Gray
+$migrateScript = Get-Content ".\db\migrate_product_images.sql" -Raw
+$migrateScript = $migrateScript -replace "'", "''"
+docker-compose exec -T db mysql -uroot -pexample -e "$migrateScript" 2>&1 | Out-Null
+
 try {
     $response = Invoke-WebRequest -Uri "http://localhost:8080/api/products.php" -UseBasicParsing -TimeoutSec 10
     $json = $response.Content | ConvertFrom-Json

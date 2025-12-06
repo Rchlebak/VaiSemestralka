@@ -7,7 +7,7 @@ if($_SERVER['REQUEST_METHOD'] === 'GET'){
     $min = isset($_GET['min_price']) ? floatval($_GET['min_price']) : null;
     $max = isset($_GET['max_price']) ? floatval($_GET['max_price']) : null;
 
-    // detect if products table has image_url column
+    // detect if products table has image_url column (legacy)
     $hasImageCol = false;
     try{
         $cstmt = $pdo->prepare("SELECT COUNT(*) AS cnt FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='products' AND COLUMN_NAME='image_url'");
@@ -15,6 +15,15 @@ if($_SERVER['REQUEST_METHOD'] === 'GET'){
         $cres = $cstmt->fetch();
         $hasImageCol = intval($cres['cnt']) > 0;
     }catch(Exception $e){ $hasImageCol = false; }
+
+    // check if product_images table exists
+    $hasImagesTable = false;
+    try{
+        $cstmt = $pdo->prepare("SELECT COUNT(*) AS cnt FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='product_images'");
+        $cstmt->execute();
+        $cres = $cstmt->fetch();
+        $hasImagesTable = intval($cres['cnt'])>0;
+    }catch(Exception $e){ $hasImagesTable = false; }
 
     $sql = "SELECT product_id, name, sku_model, brand, base_price, description" . ($hasImageCol?", image_url":"") . " FROM products WHERE is_active = 1";
     $params = [];
@@ -32,6 +41,31 @@ if($_SERVER['REQUEST_METHOD'] === 'GET'){
 
         // collect product ids
         $pids = array_map(function($r){ return $r['product_id']; }, $products);
+
+        // fetch main images from product_images table
+        $imagesByProduct = [];
+        if($hasImagesTable && count($pids) > 0){
+            $in = implode(',', array_fill(0, count($pids), '?'));
+            $imgStmt = $pdo->prepare("SELECT product_id, image_path FROM product_images WHERE product_id IN ($in) AND is_main = 1");
+            $imgStmt->execute($pids);
+            $imgRows = $imgStmt->fetchAll();
+            foreach($imgRows as $ir){
+                $imagesByProduct[$ir['product_id']] = $ir['image_path'];
+            }
+            // Fallback: get first image if no main image set
+            $missingPids = array_diff($pids, array_keys($imagesByProduct));
+            if(count($missingPids) > 0){
+                $in2 = implode(',', array_fill(0, count($missingPids), '?'));
+                $imgStmt2 = $pdo->prepare("SELECT product_id, image_path FROM product_images WHERE product_id IN ($in2) ORDER BY sort_order ASC, image_id ASC");
+                $imgStmt2->execute(array_values($missingPids));
+                $imgRows2 = $imgStmt2->fetchAll();
+                foreach($imgRows2 as $ir){
+                    if(!isset($imagesByProduct[$ir['product_id']])){
+                        $imagesByProduct[$ir['product_id']] = $ir['image_path'];
+                    }
+                }
+            }
+        }
 
         // fetch variants for these products
         $in = implode(',', array_fill(0, count($pids), '?'));
@@ -68,11 +102,13 @@ if($_SERVER['REQUEST_METHOD'] === 'GET'){
             $colors = [];
             foreach($vars as $vv){ if(!in_array($vv['size_eu'], $sizes)) $sizes[] = $vv['size_eu']; if(!in_array($vv['color'], $colors)) $colors[] = $vv['color']; }
 
-            // prefer stored image_url if available
+            // Get image: 1. from product_images table, 2. legacy image_url, 3. placeholder
             $imageUrl = null;
-            if($hasImageCol && !empty($p['image_url'])){
+            if(isset($imagesByProduct[$pid])){
+                $imageUrl = $imagesByProduct[$pid];
+            } elseif($hasImageCol && !empty($p['image_url'])){
                 $imageUrl = $p['image_url'];
-            }else{
+            } else {
                 $imageUrl = "https://picsum.photos/seed/p{$pid}/400/300";
             }
 
