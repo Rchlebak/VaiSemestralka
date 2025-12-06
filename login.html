@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prihlásenie</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .login-container {
+            max-width: 400px;
+            margin: 100px auto;
+        }
+        .login-option {
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 2px solid #e5e7eb;
+        }
+        .login-option:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .login-option .icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="login-container">
+        <h2 class="text-center mb-4">Prihlásenie</h2>
+        <p class="text-center text-muted mb-4">Vyberte typ prihlásenia</p>
+
+        <div class="row g-3">
+            <div class="col-6">
+                <div class="login-option card text-center p-4" onclick="loginAsUser()">
+                    <div class="icon">👤</div>
+                    <h5>Zákazník</h5>
+                    <p class="small text-muted mb-0">Nakupovanie a objednávky</p>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="login-option card text-center p-4" onclick="loginAsAdmin()">
+                    <div class="icon">🔧</div>
+                    <h5>Administrátor</h5>
+                    <p class="small text-muted mb-0">Správa e-shopu</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="/" class="btn btn-link">← Späť na obchod</a>
+        </div>
+    </div>
+</div>
+
+<script>
+function loginAsUser() {
+    // Pre demo - priame prihlásenie ako user
+    alert('Funkcia zákazníka bude dostupná čoskoro. Zatiaľ môžete nakupovať bez prihlásenia.');
+    window.location.href = '/';
+}
+
+function loginAsAdmin() {
+    window.location.href = '/admin_login.html';
+}
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
