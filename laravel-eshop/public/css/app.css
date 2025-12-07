@@ -1,0 +1,409 @@
+/**
+ * E-Shop Tenisiek - Vlastný CSS súbor
+ * Obsahuje 10+ vlastných pravidiel pre splnenie požiadaviek
+ */
+
+/* ==============================================
+   1. ZÁKLADNÉ FARBY A PREMENNÉ
+   ============================================== */
+:root {
+    --primary-color: #0d6efd;
+    --primary-dark: #0b5ed7;
+    --secondary-color: #6c757d;
+    --success-color: #198754;
+    --danger-color: #dc3545;
+    --light-bg: #f8f9fa;
+    --border-color: #dee2e6;
+    --shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    --shadow-md: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    --transition-fast: 0.2s ease;
+}
+
+/* ==============================================
+   2. PRODUKTOVÁ KARTA
+   ============================================== */
+.product-card {
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+}
+
+/* ==============================================
+   3. OBRÁZOK PRODUKTU
+   ============================================== */
+.product-image-wrapper {
+    position: relative;
+    overflow: hidden;
+    height: 220px;
+    background-color: var(--light-bg);
+}
+
+.product-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.product-card:hover .product-img {
+    transform: scale(1.05);
+}
+
+/* ==============================================
+   4. CENA A ZĽAVA
+   ============================================== */
+.price {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.old-price {
+    text-decoration: line-through;
+    color: var(--secondary-color);
+    font-size: 0.9rem;
+}
+
+.badge-sale {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: var(--danger-color);
+    color: white;
+    padding: 4px 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 20px;
+    z-index: 10;
+}
+
+/* ==============================================
+   5. KOŠÍK DRAWER
+   ============================================== */
+.cart-drawer {
+    position: fixed;
+    top: 0;
+    right: -400px;
+    width: 380px;
+    max-width: 90vw;
+    height: 100vh;
+    background-color: white;
+    box-shadow: -5px 0 20px rgba(0, 0, 0, 0.15);
+    z-index: 1050;
+    transition: right 0.3s ease;
+    overflow-y: auto;
+}
+
+.cart-drawer.open {
+    right: 0;
+}
+
+.cart-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1040;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+}
+
+.cart-drawer.open ~ .cart-overlay,
+.cart-overlay.open {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* ==============================================
+   6. POLOŽKA KOŠÍKA
+   ============================================== */
+.cart-item {
+    transition: background-color var(--transition-fast);
+}
+
+.cart-item:hover {
+    background-color: var(--light-bg);
+}
+
+.cart-item-img {
+    flex-shrink: 0;
+}
+
+/* ==============================================
+   7. TLAČIDLÁ
+   ============================================== */
+.btn-primary-custom {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    transition: all var(--transition-fast);
+}
+
+.btn-primary-custom:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-1px);
+}
+
+.btn-selected {
+    background-color: var(--primary-color) !important;
+    color: white !important;
+    border-color: var(--primary-color) !important;
+}
+
+/* ==============================================
+   8. VÝBER VARIANTU
+   ============================================== */
+.variant-select {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.color-option.active,
+.size-option.active {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.color-dot {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid #ddd;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.color-dot:hover {
+    transform: scale(1.2);
+}
+
+/* ==============================================
+   9. RESPONZÍVNY DIZAJN
+   ============================================== */
+@media (max-width: 768px) {
+    .cart-drawer {
+        width: 100%;
+        right: -100%;
+    }
+
+    .product-image-wrapper {
+        height: 180px;
+    }
+
+    .hero h1 {
+        font-size: 1.5rem;
+    }
+
+    .navbar-brand {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .product-card {
+        margin-bottom: 1rem;
+    }
+
+    .filter-sidebar {
+        margin-bottom: 1.5rem;
+    }
+
+    .product-actions {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .product-actions .btn {
+        width: 100%;
+    }
+}
+
+/* ==============================================
+   10. HERO SEKCIA
+   ============================================== */
+.hero {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 10px;
+    padding: 3rem 2rem;
+}
+
+.hero h1 {
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.hero p {
+    opacity: 0.9;
+}
+
+/* ==============================================
+   11. FILTRE
+   ============================================== */
+.filter-card {
+    position: sticky;
+    top: 1rem;
+}
+
+#filter-sizes button,
+#filter-colors button {
+    margin-bottom: 4px;
+}
+
+/* ==============================================
+   12. FORMULÁRE
+   ============================================== */
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+.is-invalid {
+    border-color: var(--danger-color) !important;
+}
+
+.invalid-feedback {
+    display: block;
+    color: var(--danger-color);
+    font-size: 0.875rem;
+}
+
+/* ==============================================
+   13. ADMIN PANEL
+   ============================================== */
+.admin-sidebar .nav-link {
+    padding: 0.75rem 1rem;
+    color: #333;
+    border-left: 3px solid transparent;
+}
+
+.admin-sidebar .nav-link:hover,
+.admin-sidebar .nav-link.active {
+    background-color: var(--light-bg);
+    border-left-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+/* ==============================================
+   14. TABUĽKA V ADMIN
+   ============================================== */
+.table-hover tbody tr:hover {
+    background-color: rgba(13, 110, 253, 0.05);
+}
+
+.table th {
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+}
+
+/* ==============================================
+   15. ANIMÁCIE A PRECHODY
+   ============================================== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.product-card {
+    animation: fadeIn 0.3s ease forwards;
+}
+
+.alert {
+    animation: fadeIn 0.2s ease;
+}
+
+/* ==============================================
+   16. TOAST NOTIFIKÁCIE
+   ============================================== */
+.toast-notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 12px 20px;
+    background-color: var(--success-color);
+    color: white;
+    border-radius: 8px;
+    box-shadow: var(--shadow-md);
+    z-index: 2000;
+    animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.7s forwards;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+/* ==============================================
+   17. GALÉRIA PRODUKTU
+   ============================================== */
+.product-gallery {
+    background-color: var(--light-bg);
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+}
+
+.thumbnail-img {
+    transition: all 0.2s ease;
+}
+
+.thumbnail-img:hover {
+    border-color: var(--primary-color) !important;
+    transform: scale(1.05);
+}
+
+/* ==============================================
+   18. LOADING STATE
+   ============================================== */
+.loading {
+    position: relative;
+    pointer-events: none;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+

@@ -1,0 +1,38 @@
+# Vendor (bude nainštalovaný v kontajneri)
+/vendor
+
+# Node modules
+/node_modules
+
+# Environment súbory
+.env
+.env.backup
+.env.production
+
+# Storage (okrem adresárovej štruktúry)
+/storage/logs/*
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+
+# IDE a systémové súbory
+.idea
+.vscode
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Dokumentácia
+README.md
+CHANGELOG.md
+
+# Testy
+/tests
+phpunit.xml
+.phpunit.result.cache

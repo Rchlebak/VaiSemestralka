@@ -1,28 +1,63 @@
 services:
-  app:
-    build: .
+  # Laravel PHP/Apache aplikácia
+  web:
+    build: ./laravel-eshop
     ports:
-      - '8080:80'
-    environment:
-      - DB_HOST=db
-      - DB_NAME=eshop
-      - DB_USER=root
-      - DB_PASS=example
-      - ADMIN_PASS=admin123
+      - "8000:80"
     depends_on:
       - db
+    environment:
+      - DB_CONNECTION=mysql
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_DATABASE=eshop
+      - DB_USERNAME=root
+      - DB_PASSWORD=example
+      - APP_KEY=base64:VlcbrsIHqm2s3wnI+pwFEfWPSAt8lzViIOOSZtMXeJg=
+      - APP_ENV=local
+      - APP_DEBUG=true
+      - ADMIN_PASS=admin123
+      - SESSION_DRIVER=file
+      - CACHE_STORE=file
     volumes:
-      - ./:/var/www/html
+      - ./laravel-eshop/storage:/var/www/html/storage
+      - ./laravel-eshop/public/storage:/var/www/html/public/storage
+    networks:
+      - eshop-network
+
+  # MySQL databáza
   db:
     image: mysql:8.0
-    command: --default-authentication-plugin=mysql_native_password
+    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: example
       MYSQL_DATABASE: eshop
+    ports:
+      - "3307:3306"
     volumes:
       - db_data:/var/lib/mysql
-      - ./db:/docker-entrypoint-initdb.d:ro
+    networks:
+      - eshop-network
+
+  # phpMyAdmin pre správu databázy
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: always
     ports:
-      - '3306:3306'
+      - "8081:80"
+    environment:
+      PMA_HOST: db
+      PMA_USER: root
+      PMA_PASSWORD: example
+    depends_on:
+      - db
+    networks:
+      - eshop-network
+
+networks:
+  eshop-network:
+    driver: bridge
+
 volumes:
   db_data:
+

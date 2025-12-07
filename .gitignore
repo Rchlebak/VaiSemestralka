@@ -1,13 +1,38 @@
-/vendor/
-/node_modules/
-/.env
-/.env.local
-/.env.*.local
+# Laravel
+/laravel-eshop/vendor/
+/laravel-eshop/node_modules/
+/laravel-eshop/.env
+/laravel-eshop/storage/*.key
+/laravel-eshop/storage/app/public/
+/laravel-eshop/bootstrap/cache/
+
+# IDE
 /.idea/
 /.vscode/
-/.DS_Store
-/db_data/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
 *.log
+/laravel-eshop/storage/logs/*
+!/laravel-eshop/storage/logs/.gitkeep
+
+# Docker
+/db_data/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Cache
+*.cache
+.phpunit.result.cache
+
+# Testing files
 *.sqlite
-/.phpunit.result.cache
 
