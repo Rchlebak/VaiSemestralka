@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="sk">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,6 +16,7 @@
 
     @stack('styles')
 </head>
+
 <body>
     <!-- Navigácia -->
     <header class="mb-4">
@@ -29,17 +31,54 @@
                 <div class="collapse navbar-collapse" id="navMenu">
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">
+                            <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}"
+                                href="{{ route('home') }}">
                                 <i class="bi bi-house"></i> Domov
                             </a>
                         </li>
                     </ul>
                     <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">
-                                <i class="bi bi-person"></i> Prihlásiť sa
-                            </a>
-                        </li>
+                        @auth
+                            {{-- Prihlásený používateľ --}}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                    <i class="bi bi-person-circle"></i> {{ Auth::user()->name }}
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="{{ route('profile') }}">
+                                            <i class="bi bi-person"></i> Môj profil
+                                        </a></li>
+                                    @if(Auth::user()->isAdmin())
+                                        <li><a class="dropdown-item" href="{{ route('admin.dashboard') }}">
+                                                <i class="bi bi-speedometer2"></i> Admin panel
+                                            </a></li>
+                                    @endif
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li>
+                                        <form action="{{ route('logout') }}" method="POST">
+                                            @csrf
+                                            <button type="submit" class="dropdown-item">
+                                                <i class="bi bi-box-arrow-right"></i> Odhlásiť sa
+                                            </button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </li>
+                        @else
+                            {{-- Neprihlásený používateľ --}}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('login') }}">
+                                    <i class="bi bi-box-arrow-in-right"></i> Prihlásiť sa
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('register') }}">
+                                    <i class="bi bi-person-plus"></i> Registrácia
+                                </a>
+                            </li>
+                        @endauth
                         <li class="nav-item">
                             <a class="nav-link btn btn-primary text-white ms-2 px-3" href="#" id="open-cart">
                                 <i class="bi bi-cart3"></i> Košík (<span id="cart-count">0</span>)
@@ -127,5 +166,5 @@
 
     @stack('scripts')
 </body>
-</html>
 
+</html>

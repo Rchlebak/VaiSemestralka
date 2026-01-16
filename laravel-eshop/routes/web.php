@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\UserAuthController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\AdminProductController;
 
@@ -32,19 +33,36 @@ Route::post('/checkout', [OrderController::class, 'store'])->name('checkout.stor
 // Potvrdenie objednávky
 Route::get('/order/success/{id}', [OrderController::class, 'success'])->name('order.success');
 
-// Výber prihlásenia (user/admin)
-Route::get('/login', [AuthController::class, 'showLoginChoice'])->name('login');
+// =============================================
+// AUTENTIFIKÁCIA POUŽÍVATEĽOV
+// =============================================
+
+// Pre neprihlásených (guest)
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [UserAuthController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [UserAuthController::class, 'login']);
+    Route::get('/register', [UserAuthController::class, 'showRegisterForm'])->name('register');
+    Route::post('/register', [UserAuthController::class, 'register']);
+});
+
+// Pre prihlásených (auth)
+Route::middleware('auth')->group(function () {
+    Route::post('/logout', [UserAuthController::class, 'logout'])->name('logout');
+    Route::get('/profile', [UserAuthController::class, 'profile'])->name('profile');
+    Route::put('/profile', [UserAuthController::class, 'updateProfile'])->name('profile.update');
+    Route::put('/profile/password', [UserAuthController::class, 'updatePassword'])->name('profile.password');
+});
 
 // =============================================
 // ADMIN ROUTES
 // =============================================
 
-// Prihlásenie admina
+// Prihlásenie admina (verejné)
 Route::get('/admin/login', [AuthController::class, 'showLoginForm'])->name('admin.login');
 Route::post('/admin/login', [AuthController::class, 'login'])->name('admin.login.submit');
 Route::post('/admin/logout', [AuthController::class, 'logout'])->name('admin.logout');
 
-// Chránené admin routes
+// Chránené admin routes (vyžaduje admin middleware)
 Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
     // Dashboard (redirect na produkty)
     Route::get('/', function () {
