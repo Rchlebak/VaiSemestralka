@@ -40,5 +40,8 @@ Route::prefix('admin')->middleware('admin')->group(function () {
     Route::post('/products', [AdminProductController::class, 'apiStore']);
     Route::put('/products/{id}', [AdminProductController::class, 'apiUpdate']);
     Route::delete('/products/{id}', [AdminProductController::class, 'apiDestroy']);
+
+    // AJAX in-place stock update
+    Route::put('/variants/{variantId}/stock', [AdminProductController::class, 'apiUpdateStock']);
 });
 

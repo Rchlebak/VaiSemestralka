@@ -219,6 +219,53 @@ class AdminProductController extends Controller
     }
 
     /**
+     * API: Aktualizuje sklad variantu (AJAX in-place editing)
+     * PUT /api/admin/variants/{variantId}/stock
+     * 
+     * Zmysluplné AJAX volanie č.2 - in-place editing
+     */
+    public function apiUpdateStock(Request $request, $variantId)
+    {
+        $validated = $request->validate([
+            'stock_qty' => 'required|integer|min:0|max:99999',
+        ], [
+            'stock_qty.required' => 'Množstvo je povinné',
+            'stock_qty.integer' => 'Množstvo musí byť celé číslo',
+            'stock_qty.min' => 'Množstvo nemôže byť záporné',
+        ]);
+
+        try {
+            $inventory = Inventory::find($variantId);
+
+            if (!$inventory) {
+                $inventory = new Inventory();
+                $inventory->variant_id = $variantId;
+            }
+
+            $inventory->stock_qty = $validated['stock_qty'];
+            $inventory->save();
+
+            $variant = ProductVariant::find($variantId);
+
+            return response()->json([
+                'ok' => true,
+                'message' => 'Sklad bol aktualizovaný',
+                'data' => [
+                    'variant_id' => $variantId,
+                    'stock_qty' => $inventory->stock_qty,
+                    'variant_info' => $variant ? "{$variant->color} / {$variant->size_eu}" : null
+                ]
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'ok' => false,
+                'error' => 'Chyba pri aktualizácii skladu',
+                'detail' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
      * Vymaže variant
      * DELETE /admin/variants/{variantId}
      */

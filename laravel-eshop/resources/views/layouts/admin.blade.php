@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="sk">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,6 +16,7 @@
 
     @stack('styles')
 </head>
+
 <body class="bg-light">
     <!-- Admin Navigácia -->
     <nav class="navbar navbar-dark bg-dark mb-4">
@@ -64,7 +66,7 @@
                     </div>
                     <div class="list-group list-group-flush">
                         <a href="{{ route('admin.products.index') }}"
-                           class="list-group-item list-group-item-action {{ request()->routeIs('admin.products.*') ? 'active' : '' }}">
+                            class="list-group-item list-group-item-action {{ request()->routeIs('admin.products.*') ? 'active' : '' }}">
                             <i class="bi bi-box-seam"></i> Produkty
                         </a>
                         <a href="{{ route('home') }}" class="list-group-item list-group-item-action">
@@ -83,8 +85,10 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Admin JS pro AJAX -->
+    <script src="{{ asset('js/admin.js') }}"></script>
 
     @stack('scripts')
 </body>
-</html>
 
+</html>
