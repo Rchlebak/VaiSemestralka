@@ -41,8 +41,8 @@
                             @foreach($product->images as $image)
                                 <div class="col">
                                     <div class="card h-100">
-                                        <img src="{{ $image->image_path }}" class="card-img-top"
-                                            style="height: 120px; object-fit: cover;"
+                                        <img src="{{ Str::startsWith($image->image_path, 'http') ? $image->image_path : asset($image->image_path) }}"
+                                            class="card-img-top" style="height: 120px; object-fit: cover;"
                                             onerror="this.src='https://via.placeholder.com/120?text=Error'">
                                         <div class="card-body p-2 text-center">
                                             @if($image->is_main)

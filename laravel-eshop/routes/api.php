@@ -43,5 +43,9 @@ Route::prefix('admin')->middleware('admin')->group(function () {
 
     // AJAX in-place stock update
     Route::put('/variants/{variantId}/stock', [AdminProductController::class, 'apiUpdateStock']);
+
+    // AJAX operácie s obrázkami
+    Route::delete('/images/{imageId}', [AdminProductController::class, 'apiDeleteImage']);
+    Route::post('/images/{imageId}/main', [AdminProductController::class, 'apiSetMainImage']);
 });
 

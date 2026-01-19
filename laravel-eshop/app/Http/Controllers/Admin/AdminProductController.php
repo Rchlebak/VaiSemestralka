@@ -329,6 +329,10 @@ class AdminProductController extends Controller
      */
     private function handleImages(Request $request, Product $product): void
     {
+        // Povolené typy a maximálna veľkosť
+        $allowedMimes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+        $maxSize = 5 * 1024 * 1024; // 5MB
+
         // Pridanie obrázkov z URL
         if ($request->filled('image_urls')) {
             $urls = array_filter(explode("\n", $request->input('image_urls')));
@@ -349,11 +353,21 @@ class AdminProductController extends Controller
             }
         }
 
-        // Nahrávanie súborov
+        // Nahrávanie súborov s validáciou
         if ($request->hasFile('images')) {
             $maxSort = ProductImage::where('product_id', $product->product_id)->max('sort_order') ?? 0;
 
             foreach ($request->file('images') as $file) {
+                // Validácia typu súboru
+                if (!in_array($file->getMimeType(), $allowedMimes)) {
+                    continue; // Preskočiť nepodporované typy
+                }
+
+                // Validácia veľkosti
+                if ($file->getSize() > $maxSize) {
+                    continue; // Preskočiť príliš veľké súbory
+                }
+
                 if ($file->isValid()) {
                     $path = $file->store('products', 'public');
                     $existingCount = ProductImage::where('product_id', $product->product_id)->count();
@@ -366,6 +380,64 @@ class AdminProductController extends Controller
                     ]);
                 }
             }
+        }
+    }
+
+    /**
+     * API: Vymaže obrázok (AJAX)
+     * DELETE /api/admin/images/{imageId}
+     */
+    public function apiDeleteImage($imageId)
+    {
+        try {
+            $image = ProductImage::findOrFail($imageId);
+
+            // Vymazanie súboru ak existuje
+            if (strpos($image->image_path, 'storage/') === 0) {
+                $path = str_replace('storage/', '', $image->image_path);
+                Storage::disk('public')->delete($path);
+            }
+
+            $image->delete();
+
+            return response()->json([
+                'ok' => true,
+                'message' => 'Obrázok bol vymazaný'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'ok' => false,
+                'error' => 'Chyba pri mazaní obrázka'
+            ], 500);
+        }
+    }
+
+    /**
+     * API: Nastaví hlavný obrázok (AJAX)
+     * POST /api/admin/images/{imageId}/main
+     */
+    public function apiSetMainImage($imageId)
+    {
+        try {
+            $image = ProductImage::findOrFail($imageId);
+
+            // Zrušenie hlavného obrázka pre ostatné
+            ProductImage::where('product_id', $image->product_id)
+                ->update(['is_main' => 0]);
+
+            // Nastavenie tohto ako hlavného
+            $image->is_main = 1;
+            $image->save();
+
+            return response()->json([
+                'ok' => true,
+                'message' => 'Hlavný obrázok bol nastavený'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'ok' => false,
+                'error' => 'Chyba pri nastavovaní hlavného obrázka'
+            ], 500);
         }
     }
 

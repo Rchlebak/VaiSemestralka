@@ -29,6 +29,7 @@ class ProductRequest extends FormRequest
             'sku_model' => 'nullable|string|max:84',
             'gender' => 'nullable|in:men,women,unisex',
             'description' => 'nullable|string|max:5000',
+            'category_id' => 'nullable|integer|exists:categories,category_id',
             'image_urls' => 'nullable|string',
             'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
         ];

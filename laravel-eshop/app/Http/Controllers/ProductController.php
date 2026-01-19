@@ -40,15 +40,25 @@ class ProductController extends Controller
         // Filter podľa veľkostí
         if ($request->filled('sizes')) {
             $sizes = explode(',', $request->input('sizes'));
-            $query->whereHas('variants', function($q) use ($sizes) {
+            $query->whereHas('variants', function ($q) use ($sizes) {
                 $q->whereIn('size_eu', $sizes)->where('is_active', 1);
             });
+        }
+
+        // Filter podľa kategórie
+        if ($request->filled('category_id')) {
+            $query->where('category_id', $request->input('category_id'));
+        }
+
+        // Filter podľa pohlavia (gender)
+        if ($request->filled('gender')) {
+            $query->where('gender', $request->input('gender'));
         }
 
         // Filter podľa farieb
         if ($request->filled('colors')) {
             $colors = explode(',', $request->input('colors'));
-            $query->whereHas('variants', function($q) use ($colors) {
+            $query->whereHas('variants', function ($q) use ($colors) {
                 $q->whereIn('color', $colors)->where('is_active', 1);
             });
         }

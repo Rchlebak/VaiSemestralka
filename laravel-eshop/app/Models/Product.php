@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Product Model - reprezentuje produkt v e-shope
@@ -16,6 +17,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property float $base_price
  * @property string $description
  * @property int $is_active
+ * @property int $category_id
  */
 class Product extends Model
 {
@@ -56,6 +58,7 @@ class Product extends Model
         'base_price',
         'description',
         'is_active',
+        'category_id',
     ];
 
     /**
@@ -65,7 +68,16 @@ class Product extends Model
         'product_id' => 'float',
         'base_price' => 'float',
         'is_active' => 'integer',
+        'category_id' => 'integer',
     ];
+
+    /**
+     * Relácia: Produkt patrí do kategórie
+     */
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class, 'category_id', 'category_id');
+    }
 
     /**
      * Relácia: Produkt má mnoho variantov
@@ -102,9 +114,9 @@ class Product extends Model
 
         return $query->where(function ($q) use ($term) {
             $q->where('name', 'LIKE', "%{$term}%")
-              ->orWhere('brand', 'LIKE', "%{$term}%")
-              ->orWhere('sku_model', 'LIKE', "%{$term}%")
-              ->orWhere('description', 'LIKE', "%{$term}%");
+                ->orWhere('brand', 'LIKE', "%{$term}%")
+                ->orWhere('sku_model', 'LIKE', "%{$term}%")
+                ->orWhere('description', 'LIKE', "%{$term}%");
         });
     }
 
