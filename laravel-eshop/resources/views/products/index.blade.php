@@ -202,54 +202,7 @@
             <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4" id="products-grid">
                 @foreach($products as $product)
                     <div class="col">
-                        <div class="product-card-modern">
-                            <!-- Obrázok -->
-                            <div class="product-image">
-                                @if($product->gender == 'men')
-                                    <span class="product-badge badge-men">Muži</span>
-                                @elseif($product->gender == 'women')
-                                    <span class="product-badge badge-women">Ženy</span>
-                                @endif
-                                <img src="{{ $product->main_image ?? 'https://picsum.photos/seed/p'.$product->product_id.'/400/300' }}"
-                                     alt="{{ $product->name }}"
-                                     onerror="this.src='https://via.placeholder.com/400x300?text=No+Image'">
-                                <div class="product-overlay">
-                                    <a href="{{ route('product.show', $product->product_id) }}" class="btn-view">
-                                        <i class="bi bi-eye"></i> Zobraziť
-                                    </a>
-                                </div>
-                            </div>
-
-                            <div class="product-info">
-                                <span class="product-brand">{{ $product->brand ?? 'Premium' }}</span>
-                                <h3 class="product-name">{{ $product->name }}</h3>
-
-                                <!-- Veľkosti -->
-                                @if($product->available_sizes)
-                                    <div class="product-sizes">
-                                        @foreach(array_slice($product->available_sizes, 0, 5) as $size)
-                                            <span class="size-tag">{{ $size }}</span>
-                                        @endforeach
-                                        @if(count($product->available_sizes) > 5)
-                                            <span class="size-tag more">+{{ count($product->available_sizes) - 5 }}</span>
-                                        @endif
-                                    </div>
-                                @endif
-
-                                <div class="product-footer">
-                                    <div class="product-price">
-                                        <span class="price-current">{{ number_format($product->base_price, 2) }} €</span>
-                                    </div>
-                                    <button class="btn-add-cart btn-add-to-cart"
-                                            data-product-id="{{ $product->product_id }}"
-                                            data-product-name="{{ $product->name }}"
-                                            data-product-price="{{ $product->base_price }}"
-                                            data-product-image="{{ $product->main_image ?? 'https://picsum.photos/seed/p'.$product->product_id.'/400/300' }}">
-                                        <i class="bi bi-cart-plus"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                        <x-product-card :product="$product" />
                     </div>
                 @endforeach
             </div>

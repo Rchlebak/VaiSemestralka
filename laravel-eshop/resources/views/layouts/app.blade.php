@@ -17,10 +17,12 @@
     @stack('styles')
 </head>
 
-<body>
+<body
+    style="background-color: #f8f9fa !important; background-image: radial-gradient(circle at 0% 0%, rgba(13, 110, 253, 0.25) 0%, transparent 60%), radial-gradient(circle at 100% 0%, rgba(220, 53, 69, 0.2) 0%, transparent 60%), radial-gradient(circle at 50% 100%, rgba(13, 202, 240, 0.15) 0%, transparent 60%) !important; background-attachment: fixed;">
     <!-- Navigácia -->
     <header class="mb-4">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm"
+            style="background-color: rgba(255, 255, 255, 0.9) !important; backdrop-filter: blur(12px);">
             <div class="container">
                 <a class="navbar-brand fw-bold" href="{{ route('home') }}">
                     <i class="bi bi-shoe"></i> E-Shop Tenisiek
@@ -161,9 +163,9 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Vlastné JS -->
-    <script src="{{ asset('js/cart.js') }}"></script>
-    <script src="{{ asset('js/product-filter.js') }}"></script>
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/cart.js?v=' . time()) }}"></script>
+    <script src="{{ asset('js/product-filter.js?v=' . time()) }}"></script>
+    <script src="{{ asset('js/app.js?v=' . time()) }}"></script>
 
     @stack('scripts')
 </body>

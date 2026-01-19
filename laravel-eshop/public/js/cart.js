@@ -3,7 +3,7 @@
  * Používa localStorage pre perzistenciu dát
  * OOP prístup - modul s privátnym stavom
  */
-window.Cart = (function() {
+window.Cart = (function () {
     'use strict';
 
     // Privátne premenné
@@ -163,8 +163,21 @@ window.Cart = (function() {
             return iKey === key;
         });
 
+        const currentQty = existing ? existing.qty : 0;
+        const newQty = currentQty + (item.qty || 1);
+        const maxStock = item.maxStock || 1000; // Default ak nie je zadané
+
+        if (newQty > maxStock) {
+            showNotification(`Nie je možné pridať viac kusov. Na sklade je len ${maxStock} ks.`, 'error');
+            return;
+        }
+
         if (existing) {
-            existing.qty += item.qty || 1;
+            existing.qty = newQty;
+            // Aktualizujeme maxStock ak sa zmenil (napr. doplnenie skladu)
+            if (item.maxStock !== undefined) {
+                existing.maxStock = item.maxStock;
+            }
         } else {
             cart.items.push({
                 productId: item.productId,
@@ -173,7 +186,8 @@ window.Cart = (function() {
                 price: item.price,
                 qty: item.qty || 1,
                 image: item.image || null,
-                variant: item.variant || null
+                variant: item.variant || null,
+                maxStock: item.maxStock || 1000
             });
         }
 
@@ -186,12 +200,19 @@ window.Cart = (function() {
      * Aktualizuje množstvo položky
      */
     function updateQty(idx, qty) {
+        const item = cart.items[idx];
+        const maxStock = item.maxStock || 1000;
+
         if (qty <= 0) {
-            cart.items.splice(idx, 1);
+            removeItem(idx);
+        } else if (qty > maxStock) {
+            showNotification(`Max. dostupné množstvo je ${maxStock} ks`, 'warning');
+            cart.items[idx].qty = maxStock;
+            save(); // Uložíme max. možnú hodnotu
         } else if (qty <= 99) {
             cart.items[idx].qty = qty;
+            save();
         }
-        save();
     }
 
     /**
@@ -234,10 +255,24 @@ window.Cart = (function() {
     /**
      * Zobrazí notifikáciu
      */
-    function showNotification(message) {
+    /**
+     * Zobrazí notifikáciu
+     */
+    function showNotification(message, type = 'success') {
         const toast = document.createElement('div');
         toast.className = 'toast-notification';
-        toast.innerHTML = `<i class="bi bi-check-circle me-2"></i>${escapeHtml(message)}`;
+
+        // Farba podľa typu
+        if (type === 'error') {
+            toast.style.backgroundColor = '#dc3545';
+        } else if (type === 'warning') {
+            toast.style.backgroundColor = '#ffc107';
+            toast.style.color = '#000';
+        }
+
+        const icon = type === 'error' ? 'bi-x-circle' : (type === 'warning' ? 'bi-exclamation-triangle' : 'bi-check-circle');
+
+        toast.innerHTML = `<i class="bi ${icon} me-2"></i>${escapeHtml(message)}`;
         document.body.appendChild(toast);
 
         setTimeout(() => {
