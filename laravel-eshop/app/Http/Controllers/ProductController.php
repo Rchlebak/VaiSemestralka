@@ -63,6 +63,12 @@ class ProductController extends Controller
             });
         }
 
+        // Filter podľa značky
+        if ($request->filled('brands')) {
+            $brands = explode(',', $request->input('brands'));
+            $query->whereIn('brand', $brands);
+        }
+
         // Zoradenie
         $sort = $request->input('sort', 'default');
         switch ($sort) {
@@ -71,6 +77,12 @@ class ProductController extends Controller
                 break;
             case 'price-desc':
                 $query->orderBy('base_price', 'desc');
+                break;
+            case 'name-asc':
+                $query->orderBy('name', 'asc');
+                break;
+            case 'newest':
+                $query->orderBy('created_at', 'desc');
                 break;
             default:
                 $query->orderBy('product_id', 'desc');
@@ -93,7 +105,13 @@ class ProductController extends Controller
             ->sort()
             ->values();
 
-        return view('products.index', compact('products', 'allSizes', 'allColors'));
+        $allBrands = Product::active()
+            ->distinct()
+            ->pluck('brand')
+            ->sort()
+            ->values();
+
+        return view('products.index', compact('products', 'allSizes', 'allColors', 'allBrands'));
     }
 
     /**

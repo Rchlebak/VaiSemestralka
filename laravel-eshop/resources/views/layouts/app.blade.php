@@ -23,18 +23,16 @@
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container">
                 <a class="navbar-brand fw-bold" href="{{ route('home') }}">
-                    <i class="bi bi-shoe"></i> E-Shop Tenisiek
+                    Running<span class="text-primary">Store</span>
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navMenu">
+                <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}"
-                                href="{{ route('home') }}">
-                                <i class="bi bi-house"></i> Domov
-                            </a>
+                            <a class="nav-link {{ request()->routeIs('products.index') ? 'active' : '' }}"
+                                href="{{ route('products.index') }}">Produkty</a>
                         </li>
                     </ul>
                     <ul class="navbar-nav">

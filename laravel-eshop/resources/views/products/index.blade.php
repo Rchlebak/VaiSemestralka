@@ -1,85 +1,21 @@
 @extends('layouts.app')
 
-@section('title', 'E-Shop Tenisiek - Najlepšie tenisky')
+@section('title', 'E-Shop Tenisiek - Produkty')
 
 @section('content')
-<!-- Hero sekcia - Premium dizajn -->
-<section class="hero-banner position-relative overflow-hidden mb-5">
-    <div class="hero-background"></div>
-    <div class="hero-content text-center py-5">
-        <h1 class="display-3 fw-bold text-white mb-3">
-            <span class="text-gradient">Prémiové Tenisky</span>
-        </h1>
-        <p class="lead text-white-50 mb-4">Objavte najnovšie modely od popredných značiek</p>
-        <div class="hero-stats d-flex justify-content-center gap-4 mb-4">
-            <div class="stat-item">
-                <span class="stat-number">500+</span>
-                <span class="stat-label">Produktov</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-number">20+</span>
-                <span class="stat-label">Značiek</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-number">24h</span>
-                <span class="stat-label">Doručenie</span>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Kategórie - Rýchly výber -->
-<section class="categories-section mb-5">
-    <div class="row g-3">
-        <!-- Muži -->
-        <div class="col-md-4">
-            <a href="{{ route('home', ['gender' => 'men']) }}" class="category-card category-men text-decoration-none">
-                <div class="category-icon">
-                    <i class="bi bi-person-fill"></i>
-                </div>
-                <h3>Pre mužov</h3>
-                <p>Moderné štýly pre pánov</p>
-                <span class="category-arrow"><i class="bi bi-arrow-right"></i></span>
-            </a>
-        </div>
-        <!-- Ženy -->
-        <div class="col-md-4">
-            <a href="{{ route('home', ['gender' => 'women']) }}" class="category-card category-women text-decoration-none">
-                <div class="category-icon">
-                    <i class="bi bi-person-fill"></i>
-                </div>
-                <h3>Pre ženy</h3>
-                <p>Elegantné a pohodlné</p>
-                <span class="category-arrow"><i class="bi bi-arrow-right"></i></span>
-            </a>
-        </div>
-        <!-- Unisex -->
-        <div class="col-md-4">
-            <a href="{{ route('home', ['gender' => 'unisex']) }}" class="category-card category-unisex text-decoration-none">
-                <div class="category-icon">
-                    <i class="bi bi-people-fill"></i>
-                </div>
-                <h3>Unisex</h3>
-                <p>Pre každého</p>
-                <span class="category-arrow"><i class="bi bi-arrow-right"></i></span>
-            </a>
-        </div>
-    </div>
-</section>
 
 <!-- Kategórie produktov -->
 @php
     $categories = \App\Models\Category::active()->withCount('products')->orderBy('sort_order')->get();
 @endphp
 @if($categories->count() > 0)
-<section class="product-categories mb-5">
-    <h2 class="section-title mb-4"><i class="bi bi-collection"></i> Kategórie</h2>
+<section class="product-categories mb-4 mt-4">
     <div class="categories-scroll">
-        <a href="{{ route('home') }}" class="category-chip {{ !request('category_id') ? 'active' : '' }}">
+        <a href="{{ route('products.index') }}" class="category-chip {{ !request('category_id') ? 'active' : '' }}">
             <i class="bi bi-grid-3x3-gap"></i> Všetky
         </a>
         @foreach($categories as $category)
-            <a href="{{ route('home', ['category_id' => $category->category_id]) }}" 
+            <a href="{{ route('products.index', ['category_id' => $category->category_id]) }}" 
                class="category-chip {{ request('category_id') == $category->category_id ? 'active' : '' }}">
                 {{ $category->name }}
                 <span class="badge">{{ $category->products_count }}</span>
@@ -97,7 +33,7 @@
                 <i class="bi bi-sliders"></i> Filtre
             </div>
             <div class="filter-body">
-                <form action="{{ route('home') }}" method="GET" id="filter-form">
+                <form action="{{ route('products.index') }}" method="GET" id="filter-form">
                     <!-- Vyhľadávanie -->
                     <div class="filter-group">
                         <label class="filter-label">Vyhľadávanie</label>
@@ -137,6 +73,21 @@
                         </div>
                     </div>
 
+                    <!-- Značky -->
+                    @if(isset($allBrands) && $allBrands->count() > 0)
+                    <div class="filter-group">
+                        <label class="filter-label">Značka</label>
+                        <div class="brand-grid d-flex flex-wrap gap-2" id="filter-brands">
+                            @foreach($allBrands as $brand)
+                                <button type="button" class="btn btn-sm btn-outline-secondary brand-filter-btn"
+                                        data-brand="{{ $brand }}">
+                                    {{ $brand }}
+                                </button>
+                            @endforeach
+                        </div>
+                    </div>
+                    @endif
+
                     <!-- Veľkosti -->
                     @if($allSizes->count() > 0)
                     <div class="filter-group">
@@ -170,7 +121,7 @@
                         <button type="submit" class="btn btn-filter-apply">
                             <i class="bi bi-check-lg"></i> Použiť filtre
                         </button>
-                        <a href="{{ route('home') }}" class="btn btn-filter-clear">
+                        <a href="{{ route('products.index') }}" class="btn btn-filter-clear">
                             <i class="bi bi-x-lg"></i> Vymazať
                         </a>
                     </div>
@@ -190,6 +141,7 @@
             <div class="sort-wrapper">
                 <select id="sort-select" class="form-select">
                     <option value="default" {{ request('sort') == 'default' ? 'selected' : '' }}>Odporúčané</option>
+                    <option value="newest" {{ request('sort') == 'newest' ? 'selected' : '' }}>Najnovšie</option>
                     <option value="price-asc" {{ request('sort') == 'price-asc' ? 'selected' : '' }}>Cena: od najnižšej</option>
                     <option value="price-desc" {{ request('sort') == 'price-desc' ? 'selected' : '' }}>Cena: od najvyššej</option>
                     <option value="name-asc" {{ request('sort') == 'name-asc' ? 'selected' : '' }}>Názov: A-Z</option>
@@ -216,7 +168,7 @@
                 <div class="empty-icon"><i class="bi bi-inbox"></i></div>
                 <h3>Žiadne produkty</h3>
                 <p>Pre zadané filtre sme nenašli žiadne produkty.</p>
-                <a href="{{ route('home') }}" class="btn btn-primary">Zobraziť všetky produkty</a>
+                <a href="{{ route('products.index') }}" class="btn btn-primary">Zobraziť všetky produkty</a>
             </div>
         @endif
     </div>
@@ -229,6 +181,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Vybrané filtre
     let selectedSizes = [];
     let selectedColors = [];
+    let selectedBrands = [];
     let selectedGender = document.getElementById('gender-input')?.value || '';
 
     // Inicializácia z URL parametrov
@@ -238,6 +191,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     if (urlParams.get('colors')) {
         selectedColors = urlParams.get('colors').split(',');
+    }
+    if (urlParams.get('brands')) {
+        selectedBrands = urlParams.get('brands').split(',');
     }
 
     // Pohlavie tlačidlá
@@ -263,7 +219,57 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.color-filter-btn').forEach(btn => {
             btn.classList.toggle('active', selectedColors.includes(btn.dataset.color));
         });
+        document.querySelectorAll('.brand-filter-btn').forEach(btn => {
+            const isActive = selectedBrands.includes(btn.dataset.brand);
+            btn.classList.toggle('active', isActive);
+            btn.classList.toggle('btn-primary', isActive); // Use primary color for active brand
+            btn.classList.toggle('text-white', isActive);
+            btn.classList.toggle('btn-outline-secondary', !isActive);
+        });
     }
+
+    // Funkcia na odoslanie filtrov
+    function applyFilters() {
+        const form = document.getElementById('filter-form');
+        if (!form) return;
+
+        // Helper pre pridanie inputov
+        const addInput = (name, values) => {
+            if (values.length > 0) {
+                // Odstránime staré inputy ak existujú
+                const oldInput = form.querySelector(`input[name="${name}"]`);
+                if (oldInput) oldInput.remove();
+
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = name;
+                input.value = values.join(',');
+                form.appendChild(input);
+            }
+        };
+
+        addInput('sizes', selectedSizes);
+        addInput('colors', selectedColors);
+        addInput('brands', selectedBrands);
+
+        form.submit();
+    }
+
+    // Filtre značiek
+    document.querySelectorAll('.brand-filter-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const brand = this.dataset.brand;
+            const index = selectedBrands.indexOf(brand);
+            if (index > -1) {
+                selectedBrands.splice(index, 1);
+            } else {
+                selectedBrands.push(brand);
+            }
+            updateFilterButtons();
+            applyFilters(); // Auto-submit
+        });
+    });
 
     // Filtre veľkostí
     document.querySelectorAll('.size-filter-btn').forEach(btn => {
@@ -277,6 +283,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 selectedSizes.push(size);
             }
             updateFilterButtons();
+            applyFilters(); // Auto-submit
         });
     });
 
@@ -292,34 +299,30 @@ document.addEventListener('DOMContentLoaded', function() {
                 selectedColors.push(color);
             }
             updateFilterButtons();
+            applyFilters(); // Auto-submit
         });
     });
 
-    // Pri odoslaní formulára pridáme vybrané filtre
-    document.getElementById('filter-form')?.addEventListener('submit', function(e) {
-        if (selectedSizes.length > 0) {
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = 'sizes';
-            input.value = selectedSizes.join(',');
-            this.appendChild(input);
-        }
-        if (selectedColors.length > 0) {
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = 'colors';
-            input.value = selectedColors.join(',');
-            this.appendChild(input);
-        }
+    // Pri manuálnom odoslaní (ak by ostalo tlačidlo)
+    document.querySelector('.btn-filter-apply')?.addEventListener('click', function(e) {
+        e.preventDefault();
+        applyFilters();
     });
 
+    // Odstránime pôvodný listener na submit, lebo riešime cez applyFilters
+    // (Ponecháme prázdny ak by niečo iné triggerovalo, ale applyFilters volá submit priamo)
+    
     // Inicializácia tlačidiel
     updateFilterButtons();
 
     // Zoradenie
     document.getElementById('sort-select')?.addEventListener('change', function() {
+        // Zachovať existujúce filtre aj pri zmene sortu
+        // Najjednoduchšie je pridať sort parameter do form action a odoslať
+        // Alebo len upraviť URL ako predtým, ale musíme pridať aj filtre
         const url = new URL(window.location);
         url.searchParams.set('sort', this.value);
+        // Filtre už sú v URL, takž stačí reload
         window.location.href = url.toString();
     });
 

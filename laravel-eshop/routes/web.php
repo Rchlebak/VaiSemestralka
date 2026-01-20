@@ -7,6 +7,7 @@ use App\Http\Controllers\UserAuthController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\AdminProductController;
 use App\Http\Controllers\Admin\AdminCategoryController;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,8 +22,11 @@ use App\Http\Controllers\Admin\AdminCategoryController;
 // VEREJNÉ ROUTES (Frontend)
 // =============================================
 
-// Hlavná stránka - zoznam produktov
-Route::get('/', [ProductController::class, 'index'])->name('home');
+// Landing Page (Domov)
+Route::get('/', [HomeController::class, 'index'])->name('home');
+
+// Shop Listings (Produkty)
+Route::get('/shop', [ProductController::class, 'index'])->name('products.index');
 
 // Detail produktu
 Route::get('/product/{id}', [ProductController::class, 'show'])->name('product.show');

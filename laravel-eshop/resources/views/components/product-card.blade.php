@@ -11,9 +11,17 @@
         @endif
 
         {{-- Sales Badge (voliteľné) --}}
-        @if(isset($product->base_price) && $product->base_price > $product->price)
-            <span
-                class="product-badge bg-danger text-white ms-5">-{{ round((1 - $product->price / $product->base_price) * 100) }}%</span>
+        {{-- Stock Status Badge --}}
+        @php
+            $totalStock = $product->variants->sum(function ($variant) {
+                return $variant->inventory->stock_qty ?? 0;
+            });
+        @endphp
+
+        @if($totalStock == 0)
+            <span class="product-badge bg-dark text-white ms-5">Vypredané</span>
+        @elseif($totalStock <= 5)
+            <span class="product-badge bg-warning text-dark ms-5">Čoskoro vypredané</span>
         @endif
 
         @php
@@ -63,10 +71,11 @@
             </div>
 
             {{-- Add to Cart Button (zatiaľ smeruje na detail, ale môže byť AJAX) --}}
-            <button class="btn-add-cart btn-add-to-cart"
+            {{-- Add to Cart Button --}}
+            <button class="btn-add-cart btn-add-to-cart {{ $totalStock == 0 ? 'disabled btn-secondary' : '' }}"
                 onclick="window.location.href='{{ route('product.show', $product->product_id) }}'"
                 data-product-id="{{ $product->product_id }}" data-product-name="{{ $product->name }}"
-                data-product-price="{{ $product->base_price }}">
+                data-product-price="{{ $product->base_price }}" {{ $totalStock == 0 ? 'disabled' : '' }}>
                 <i class="bi bi-cart-plus"></i>
             </button>
         </div>

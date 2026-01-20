@@ -186,16 +186,40 @@
             const variant = variants.find(v => v.color === selectedColor && v.size_eu === selectedSize && v.is_active === 1);
             if (!variant) {
                 stockEl.innerHTML = '<span class="text-danger"><i class="bi bi-x-circle"></i> Nedostupné</span>';
+                const btn = document.getElementById('add-to-cart-btn');
+                if(btn) {
+                    btn.disabled = true;
+                    btn.classList.add('btn-secondary');
+                    btn.classList.remove('btn-primary');
+                }
             } else {
-                // Fix: stock_qty je v inventory relácii, nie priamo na variante (pokiaľ nie je v appends)
-                    const stockQty = variant.inventory ? variant.inventory.stock_qty : 0;
-                if (stockQty > 0) {
+                const stockQty = variant.inventory ? variant.inventory.stock_qty : 0;
+                const btn = document.getElementById('add-to-cart-btn');
+                
+                if (stockQty > 5) {
                     stockEl.innerHTML = `<span class="text-success"><i class="bi bi-check-circle"></i> Skladom (${stockQty} ks)</span>`;
+                    if(btn) {
+                        btn.disabled = false;
+                        btn.classList.add('btn-primary');
+                        btn.classList.remove('btn-secondary');
+                    }
+                } else if (stockQty > 0) {
+                     stockEl.innerHTML = `<span class="text-warning fw-bold"><i class="bi bi-exclamation-circle"></i> Čoskoro vypredané (${stockQty} ks)</span>`;
+                     if(btn) {
+                        btn.disabled = false;
+                        btn.classList.add('btn-primary');
+                        btn.classList.remove('btn-secondary');
+                     }
                 } else {
-                    stockEl.innerHTML = '<span class="text-warning"><i class="bi bi-clock"></i> Vypredané</span>';
+                    stockEl.innerHTML = '<span class="text-danger fw-bold"><i class="bi bi-x-circle"></i> Vypredané</span>';
+                    if(btn) {
+                        btn.disabled = true;
+                        btn.classList.add('btn-secondary');
+                        btn.classList.remove('btn-primary');
+                    }
                 }
             }
-            }
+        }
         // Inicializácia
             document.querySelector('.color-option')?.click();
         document.getElementById('add-to-cart-btn')?.addEventListener('click', function () {
