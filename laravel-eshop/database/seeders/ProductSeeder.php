@@ -31,9 +31,9 @@ class ProductSeeder extends Seeder
                 'colors' => ['white'],
                 'sizes' => ['39', '40', '41', '42', '43', '44', '45'],
                 'images' => [
-                    'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=600',
-                    'https://images.unsplash.com/photo-1600269452121-4f2416e55c28?w=600',
-                    'https://images.unsplash.com/photo-1604068599427-024c0d0c3eb1?w=600',
+                    'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=600&fit=crop',
+                    'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=600&fit=crop&crop=top',
+                    'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=600&fit=crop&crop=bottom',
                 ]
             ],
             [
@@ -47,9 +47,9 @@ class ProductSeeder extends Seeder
                 'colors' => ['black'],
                 'sizes' => ['40', '41', '42', '43', '44', '45'],
                 'images' => [
-                    'https://images.unsplash.com/photo-1588117305388-c2631a279f82?w=600',
-                    'https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=600',
-                    'https://images.unsplash.com/photo-1579338559194-a162d19bf842?w=600',
+                    'https://images.unsplash.com/photo-1588117305388-c2631a279f82?w=600&fit=crop',
+                    'https://images.unsplash.com/photo-1588117305388-c2631a279f82?w=600&fit=crop&crop=left',
+                    'https://images.unsplash.com/photo-1588117305388-c2631a279f82?w=600&fit=crop&crop=right',
                 ]
             ],
             // === NIKE DUNK ===
@@ -64,9 +64,9 @@ class ProductSeeder extends Seeder
                 'colors' => ['panda'],
                 'sizes' => ['36', '37', '38', '39', '40', '41', '42', '43', '44'],
                 'images' => [
-                    'https://images.unsplash.com/photo-1612902456551-333ac5afa26e?w=600',
-                    'https://images.unsplash.com/photo-1597045566677-8cf032ed6634?w=600',
-                    'https://images.unsplash.com/photo-1584735175315-9d5df23860e6?w=600',
+                    'https://images.unsplash.com/photo-1612902456551-333ac5afa26e?w=600&fit=crop',
+                    'https://images.unsplash.com/photo-1612902456551-333ac5afa26e?w=600&fit=crop&crop=top',
+                    'https://images.unsplash.com/photo-1612902456551-333ac5afa26e?w=600&fit=crop&crop=bottom',
                 ]
             ],
             // === AIR JORDAN 1 ===
@@ -81,9 +81,9 @@ class ProductSeeder extends Seeder
                 'colors' => ['chicago'],
                 'sizes' => ['40', '41', '42', '43', '44', '45', '46'],
                 'images' => [
-                    'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=600',
-                    'https://images.unsplash.com/photo-1552346154-21d32810aba3?w=600',
-                    'https://images.unsplash.com/photo-1546868871-0f936769675e?w=600',
+                    'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=600&fit=crop',
+                    'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=600&fit=crop&crop=left',
+                    'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=600&fit=crop&crop=right',
                 ]
             ],
             [
@@ -97,9 +97,9 @@ class ProductSeeder extends Seeder
                 'colors' => ['white-black'],
                 'sizes' => ['38', '39', '40', '41', '42', '43', '44'],
                 'images' => [
-                    'https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=600',
-                    'https://images.unsplash.com/photo-1556906781-9a412961c28c?w=600',
-                    'https://images.unsplash.com/photo-1587563871167-1ee9c731aefb?w=600',
+                    'https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=600&fit=crop',
+                    'https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=600&fit=crop&crop=left',
+                    'https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=600&fit=crop&crop=right',
                 ]
             ],
             // === ADIDAS SAMBA ===
@@ -114,9 +114,9 @@ class ProductSeeder extends Seeder
                 'colors' => ['white'],
                 'sizes' => ['36', '37', '38', '39', '40', '41', '42', '43', '44'],
                 'images' => [
-                    'https://images.unsplash.com/photo-1608379743498-63e2fa966943?w=600',
-                    'https://images.unsplash.com/photo-1605733160314-4fc7dac4bb16?w=600',
-                    'https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?w=600',
+                    'https://images.unsplash.com/photo-1608379743498-63e2fa966943?w=600&fit=crop',
+                    'https://images.unsplash.com/photo-1608379743498-63e2fa966943?w=600&fit=crop&crop=top',
+                    'https://images.unsplash.com/photo-1608379743498-63e2fa966943?w=600&fit=crop&crop=bottom',
                 ]
             ],
             [
@@ -130,9 +130,9 @@ class ProductSeeder extends Seeder
                 'colors' => ['black'],
                 'sizes' => ['38', '39', '40', '41', '42', '43', '44', '45'],
                 'images' => [
-                    'https://images.unsplash.com/photo-1520256862855-398228c41684?w=600',
-                    'https://images.unsplash.com/photo-1543508282-6319a3e2621f?w=600',
-                    'https://images.unsplash.com/photo-1580906853149-2b92a8d680e0?w=600',
+                    'https://images.unsplash.com/photo-1520256862855-398228c41684?w=600&fit=crop',
+                    'https://images.unsplash.com/photo-1520256862855-398228c41684?w=600&fit=crop&crop=left',
+                    'https://images.unsplash.com/photo-1520256862855-398228c41684?w=600&fit=crop&crop=right',
                 ]
             ],
             // === ADIDAS STAN SMITH ===
@@ -147,9 +147,9 @@ class ProductSeeder extends Seeder
                 'colors' => ['white-green'],
                 'sizes' => ['36', '37', '38', '39', '40', '41', '42', '43', '44', '45'],
                 'images' => [
-                    'https://images.unsplash.com/photo-1603787081207-362bcef7c144?w=600',
-                    'https://images.unsplash.com/photo-1581017316471-1f6ef7ce6fd3?w=600',
-                    'https://images.unsplash.com/photo-1609585903816-a3a39a8a7a4d?w=600',
+                    'https://images.unsplash.com/photo-1603787081207-362bcef7c144?w=600&fit=crop',
+                    'https://images.unsplash.com/photo-1603787081207-362bcef7c144?w=600&fit=crop&crop=top',
+                    'https://images.unsplash.com/photo-1603787081207-362bcef7c144?w=600&fit=crop&crop=bottom',
                 ]
             ],
             // === ADIDAS SUPERSTAR ===
@@ -164,9 +164,9 @@ class ProductSeeder extends Seeder
                 'colors' => ['white-black'],
                 'sizes' => ['36', '37', '38', '39', '40', '41', '42', '43', '44'],
                 'images' => [
-                    'https://images.unsplash.com/photo-1575537302964-96cd47c06b1b?w=600',
-                    'https://images.unsplash.com/photo-1518002171953-a080ee817e1f?w=600',
-                    'https://images.unsplash.com/photo-1595341888016-a392ef81b7de?w=600',
+                    'https://images.unsplash.com/photo-1575537302964-96cd47c06b1b?w=600&fit=crop',
+                    'https://images.unsplash.com/photo-1575537302964-96cd47c06b1b?w=600&fit=crop&crop=left',
+                    'https://images.unsplash.com/photo-1575537302964-96cd47c06b1b?w=600&fit=crop&crop=right',
                 ]
             ],
             // === NIKE AIR FORCE 1 LOW WHITE (TENISKY) - KONZISTENTNÉ OBRÁZKY ===
@@ -351,9 +351,9 @@ class ProductSeeder extends Seeder
                 'colors' => ['black-white'],
                 'sizes' => ['38', '39', '40', '41', '42', '43', '44', '45'],
                 'images' => [
-                    'https://images.unsplash.com/photo-1612902456551-333ac5afa26e?w=600',
-                    'https://images.unsplash.com/photo-1597045566677-8cf032ed6634?w=600',
-                    'https://images.unsplash.com/photo-1584735175315-9d5df23860e6?w=600',
+                    'https://images.unsplash.com/photo-1612902456551-333ac5afa26e?w=600&fit=crop',
+                    'https://images.unsplash.com/photo-1612902456551-333ac5afa26e?w=600&fit=crop&crop=left',
+                    'https://images.unsplash.com/photo-1612902456551-333ac5afa26e?w=600&fit=crop&crop=right',
                 ]
             ],
             [
@@ -367,9 +367,9 @@ class ProductSeeder extends Seeder
                 'colors' => ['chicago'],
                 'sizes' => ['39', '40', '41', '42', '43', '44', '45'],
                 'images' => [
-                    'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=600',
-                    'https://images.unsplash.com/photo-1552346154-21d32810aba3?w=600',
-                    'https://images.unsplash.com/photo-1546868871-0f936769675e?w=600',
+                    'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=600&fit=crop',
+                    'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=600&fit=crop&crop=top',
+                    'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=600&fit=crop&crop=bottom',
                 ]
             ],
             // === NIKE AIR JORDAN 4 (TENISKY) ===
@@ -384,9 +384,9 @@ class ProductSeeder extends Seeder
                 'colors' => ['white-cement'],
                 'sizes' => ['40', '41', '42', '43', '44', '45', '46'],
                 'images' => [
-                    'https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb?w=600',
-                    'https://images.unsplash.com/photo-1556906781-9a412961c28c?w=600',
-                    'https://images.unsplash.com/photo-1587563871167-1ee9c731aefb?w=600',
+                    'https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb?w=600&fit=crop',
+                    'https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb?w=600&fit=crop&crop=left',
+                    'https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb?w=600&fit=crop&crop=right',
                 ]
             ],
             // === NIKE BLAZER MID (TENISKY) ===
@@ -401,9 +401,9 @@ class ProductSeeder extends Seeder
                 'colors' => ['white-black'],
                 'sizes' => ['36', '37', '38', '39', '40', '41', '42', '43', '44', '45'],
                 'images' => [
-                    'https://images.unsplash.com/photo-1607522370275-f14206abe5d3?w=600',
-                    'https://images.unsplash.com/photo-1463100099107-aa0980c362e6?w=600',
-                    'https://images.unsplash.com/photo-1494496195158-c3becb4f2475?w=600',
+                    'https://images.unsplash.com/photo-1607522370275-f14206abe5d3?w=600&fit=crop',
+                    'https://images.unsplash.com/photo-1607522370275-f14206abe5d3?w=600&fit=crop&crop=left',
+                    'https://images.unsplash.com/photo-1607522370275-f14206abe5d3?w=600&fit=crop&crop=right',
                 ]
             ],
             // === ADIDAS YEEZY 350 V2 (TENISKY) ===
@@ -418,9 +418,9 @@ class ProductSeeder extends Seeder
                 'colors' => ['zebra'],
                 'sizes' => ['40', '41', '42', '43', '44', '45', '46'],
                 'images' => [
-                    'https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=600',
-                    'https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=600',
-                    'https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb?w=600',
+                    'https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=600&fit=crop',
+                    'https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=600&fit=crop&crop=top',
+                    'https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=600&fit=crop&crop=bottom',
                 ]
             ],
             // === ADIDAS CAMPUS 00S (TENISKY) ===
@@ -435,9 +435,9 @@ class ProductSeeder extends Seeder
                 'colors' => ['black'],
                 'sizes' => ['36', '37', '38', '39', '40', '41', '42', '43', '44'],
                 'images' => [
-                    'https://images.unsplash.com/photo-1520256862855-398228c41684?w=600',
-                    'https://images.unsplash.com/photo-1543508282-6319a3e2621f?w=600',
-                    'https://images.unsplash.com/photo-1580906853149-2b92a8d680e0?w=600',
+                    'https://images.unsplash.com/photo-1520256862855-398228c41684?w=600&fit=crop',
+                    'https://images.unsplash.com/photo-1520256862855-398228c41684?w=600&fit=crop&crop=top',
+                    'https://images.unsplash.com/photo-1520256862855-398228c41684?w=600&fit=crop&crop=bottom',
                 ]
             ],
             // === AIR JORDAN 3 RETRO (TENISKY) ===
@@ -452,9 +452,9 @@ class ProductSeeder extends Seeder
                 'colors' => ['white-cement'],
                 'sizes' => ['40', '41', '42', '43', '44', '45', '46'],
                 'images' => [
-                    'https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=600',
-                    'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=600',
-                    'https://images.unsplash.com/photo-1552346154-21d32810aba3?w=600',
+                    'https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=600&fit=crop',
+                    'https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=600&fit=crop&crop=top',
+                    'https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=600&fit=crop&crop=bottom',
                 ]
             ],
             // === VANS ERA (TENISKY) ===
@@ -469,9 +469,9 @@ class ProductSeeder extends Seeder
                 'colors' => ['navy'],
                 'sizes' => ['36', '37', '38', '39', '40', '41', '42', '43', '44', '45'],
                 'images' => [
-                    'https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=600',
-                    'https://images.unsplash.com/photo-1609585903816-a3a39a8a7a4d?w=600',
-                    'https://images.unsplash.com/photo-1603787081207-362bcef7c144?w=600',
+                    'https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=600&fit=crop',
+                    'https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=600&fit=crop&crop=left',
+                    'https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=600&fit=crop&crop=right',
                 ]
             ],
             // === CONVERSE RUN STAR HIKE (TENISKY) ===
@@ -486,9 +486,9 @@ class ProductSeeder extends Seeder
                 'colors' => ['black'],
                 'sizes' => ['36', '37', '38', '39', '40', '41', '42', '43'],
                 'images' => [
-                    'https://images.unsplash.com/photo-1607522370275-f14206abe5d3?w=600',
-                    'https://images.unsplash.com/photo-1580906853149-2b92a8d680e0?w=600',
-                    'https://images.unsplash.com/photo-1605733160314-4fc7dac4bb16?w=600',
+                    'https://images.unsplash.com/photo-1607522370275-f14206abe5d3?w=600&fit=crop',
+                    'https://images.unsplash.com/photo-1607522370275-f14206abe5d3?w=600&fit=crop&crop=top',
+                    'https://images.unsplash.com/photo-1607522370275-f14206abe5d3?w=600&fit=crop&crop=bottom',
                 ]
             ],
             // === PUMA CLYDE (TENISKY) ===
@@ -503,9 +503,9 @@ class ProductSeeder extends Seeder
                 'colors' => ['white-gold'],
                 'sizes' => ['40', '41', '42', '43', '44', '45'],
                 'images' => [
-                    'https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=600',
-                    'https://images.unsplash.com/photo-1518002171953-a080ee817e1f?w=600',
-                    'https://images.unsplash.com/photo-1575537302964-96cd47c06b1b?w=600',
+                    'https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=600&fit=crop',
+                    'https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=600&fit=crop&crop=left',
+                    'https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=600&fit=crop&crop=right',
                 ]
             ],
             // === ADIDAS ULTRABOOST (BEH) ===

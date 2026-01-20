@@ -5,10 +5,12 @@
 @section('content')
     <!-- Hero sekcia - Premium dizajn -->
     <section class="hero-banner position-relative overflow-hidden mb-5">
-        <div class="hero-background"></div>
+        <div class="hero-background"
+            style="background-image: url('https://images.unsplash.com/photo-1552346154-21d32810aba3?auto=format&fit=crop&w=1920&q=80'); background-size: cover; background-position: center;">
+        </div>
         <div class="hero-content text-center py-5">
             <h1 class="display-3 fw-bold text-white mb-3">
-                <span class="text-gradient">Nová Kolekcia 2024</span>
+                <span class="text-gradient">Nová Kolekcia 2026</span>
             </h1>
             <p class="lead text-white-50 mb-4">Objavte najnovšie trendy a limitované edície od svetových značiek</p>
             <div class="d-flex justify-content-center gap-3">
