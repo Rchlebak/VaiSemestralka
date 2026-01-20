@@ -333,52 +333,101 @@ class AdminProductController extends Controller
         $allowedMimes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
         $maxSize = 5 * 1024 * 1024; // 5MB
 
-        // Pridanie obrázkov z URL
+        // 1. Spracovanie HLAVNÉHO obrázka
+        if ($request->hasFile('main_image')) {
+            $file = $request->file('main_image');
+
+            if (in_array($file->getMimeType(), $allowedMimes) && $file->getSize() <= $maxSize && $file->isValid()) {
+                // Zrušenie existujúcich hlavných obrázkov
+                ProductImage::where('product_id', $product->product_id)
+                    ->update(['is_main' => 0]);
+
+                $path = $file->store('products', 'public');
+
+                ProductImage::create([
+                    'product_id' => $product->product_id,
+                    'image_path' => 'storage/' . $path,
+                    'is_main' => 1, // Explicitne hlavný
+                    'sort_order' => 0,
+                ]);
+            }
+        }
+
+        // 2. Spracovanie GALÉRIE (viac súborov)
+        if ($request->hasFile('gallery_images')) {
+            $maxSort = ProductImage::where('product_id', $product->product_id)->max('sort_order') ?? 0;
+
+            foreach ($request->file('gallery_images') as $file) {
+                if (!in_array($file->getMimeType(), $allowedMimes) || $file->getSize() > $maxSize || !$file->isValid()) {
+                    continue;
+                }
+
+                $path = $file->store('products', 'public');
+
+                ProductImage::create([
+                    'product_id' => $product->product_id,
+                    'image_path' => 'storage/' . $path,
+                    'is_main' => 0, // Explicitne vedľajší
+                    'sort_order' => ++$maxSort,
+                ]);
+            }
+        }
+
+        // 3. Spracovanie URL (Legacy/Backup) a Base64
         if ($request->filled('image_urls')) {
             $urls = array_filter(explode("\n", $request->input('image_urls')));
             $maxSort = ProductImage::where('product_id', $product->product_id)->max('sort_order') ?? 0;
 
             foreach ($urls as $url) {
                 $url = trim($url);
-                if (filter_var($url, FILTER_VALIDATE_URL)) {
-                    $existingCount = ProductImage::where('product_id', $product->product_id)->count();
 
-                    ProductImage::create([
-                        'product_id' => $product->product_id,
-                        'image_path' => $url,
-                        'is_main' => $existingCount === 0 ? 1 : 0,
-                        'sort_order' => ++$maxSort,
-                    ]);
+                // Detekcia Base64
+                if (preg_match('/^data:image\/(\w+);base64,/', $url, $type)) {
+                    $data = substr($url, strpos($url, ',') + 1);
+                    $type = strtolower($type[1]); // jpg, png, gif
+
+                    if (!in_array($type, ['jpg', 'jpeg', 'png', 'gif', 'webp'])) {
+                        continue;
+                    }
+
+                    $data = base64_decode($data);
+                    if ($data === false) {
+                        continue;
+                    }
+
+                    $filename = 'products/' . uniqid() . '.' . $type;
+                    Storage::disk('public')->put($filename, $data);
+
+                    // Uloženie cesty k súboru
+                    $url = 'storage/' . $filename;
                 }
+                // Validácia bežnej URL
+                elseif (!filter_var($url, FILTER_VALIDATE_URL)) {
+                    continue;
+                }
+
+                // Ak produkt nemá žiadny obrázok, prvý URL bude hlavný (iba ak sme nenahrali main_image)
+                $hasMain = ProductImage::where('product_id', $product->product_id)->where('is_main', 1)->exists();
+
+                ProductImage::create([
+                    'product_id' => $product->product_id,
+                    'image_path' => $url,
+                    'is_main' => !$hasMain ? 1 : 0,
+                    'sort_order' => ++$maxSort,
+                ]);
+
+                if (!$hasMain)
+                    $hasMain = true;
             }
         }
 
-        // Nahrávanie súborov s validáciou
-        if ($request->hasFile('images')) {
-            $maxSort = ProductImage::where('product_id', $product->product_id)->max('sort_order') ?? 0;
-
-            foreach ($request->file('images') as $file) {
-                // Validácia typu súboru
-                if (!in_array($file->getMimeType(), $allowedMimes)) {
-                    continue; // Preskočiť nepodporované typy
-                }
-
-                // Validácia veľkosti
-                if ($file->getSize() > $maxSize) {
-                    continue; // Preskočiť príliš veľké súbory
-                }
-
-                if ($file->isValid()) {
-                    $path = $file->store('products', 'public');
-                    $existingCount = ProductImage::where('product_id', $product->product_id)->count();
-
-                    ProductImage::create([
-                        'product_id' => $product->product_id,
-                        'image_path' => 'storage/' . $path,
-                        'is_main' => $existingCount === 0 ? 1 : 0,
-                        'sort_order' => ++$maxSort,
-                    ]);
-                }
+        // Fallback: Ak nemáme hlavný obrázok, nastavíme prvý nahraný ako hlavný
+        $mainExists = ProductImage::where('product_id', $product->product_id)->where('is_main', 1)->exists();
+        if (!$mainExists) {
+            $firstImage = ProductImage::where('product_id', $product->product_id)->orderBy('sort_order')->first();
+            if ($firstImage) {
+                $firstImage->is_main = 1;
+                $firstImage->save();
             }
         }
     }

@@ -12,14 +12,19 @@
 
         {{-- Sales Badge (voliteľné) --}}
         @if(isset($product->base_price) && $product->base_price > $product->price)
-            <span class="product-badge bg-danger text-white ms-5">-{{ round((1 - $product->price / $product->base_price) * 100) }}%</span>
+            <span
+                class="product-badge bg-danger text-white ms-5">-{{ round((1 - $product->price / $product->base_price) * 100) }}%</span>
         @endif
 
-        <img src="{{ $product->main_image ?? 'https://picsum.photos/seed/p'.$product->product_id.'/400/300' }}"
-             alt="{{ $product->name }}"
-             onerror="this.src='https://via.placeholder.com/400x300?text=No+Image'"
-             loading="lazy">
-        
+        @php
+            $rawImg = $product->main_image ?? null;
+            $cardImage = $rawImg
+                ? (Str::startsWith($rawImg, 'http') ? $rawImg : asset($rawImg))
+                : 'https://picsum.photos/seed/p' . $product->product_id . '/400/300';
+        @endphp
+        <img src="{{ $cardImage }}" alt="{{ $product->name }}"
+            onerror="this.src='https://via.placeholder.com/400x300?text=No+Image'" loading="lazy">
+
         <div class="product-overlay">
             <a href="{{ route('product.show', $product->product_id) }}" class="btn-view">
                 <i class="bi bi-eye"></i> Zobraziť
@@ -51,16 +56,17 @@
             <div class="product-price">
                 <span class="price-current">{{ number_format($product->base_price, 2) }} €</span>
                 @if(isset($product->old_price))
-                    <span class="text-muted text-decoration-line-through small ms-1">{{ number_format($product->old_price, 2) }} €</span>
+                    <span
+                        class="text-muted text-decoration-line-through small ms-1">{{ number_format($product->old_price, 2) }}
+                        €</span>
                 @endif
             </div>
-            
+
             {{-- Add to Cart Button (zatiaľ smeruje na detail, ale môže byť AJAX) --}}
             <button class="btn-add-cart btn-add-to-cart"
-                    onclick="window.location.href='{{ route('product.show', $product->product_id) }}'"
-                    data-product-id="{{ $product->product_id }}"
-                    data-product-name="{{ $product->name }}"
-                    data-product-price="{{ $product->base_price }}">
+                onclick="window.location.href='{{ route('product.show', $product->product_id) }}'"
+                data-product-id="{{ $product->product_id }}" data-product-name="{{ $product->name }}"
+                data-product-price="{{ $product->base_price }}">
                 <i class="bi bi-cart-plus"></i>
             </button>
         </div>

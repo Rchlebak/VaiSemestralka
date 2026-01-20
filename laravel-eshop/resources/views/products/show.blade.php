@@ -16,7 +16,12 @@
             <div class="card">
                 <div class="product-gallery">
                     @php
-                        $mainImage = $product->main_image ?? 'https://picsum.photos/seed/p' . $product->product_id . '/600/500';
+                        $rawMainImage = $product->main_image ?? null;
+                        if ($rawMainImage) {
+                            $mainImage = Str::startsWith($rawMainImage, 'http') ? $rawMainImage : asset($rawMainImage);
+                        } else {
+                            $mainImage = 'https://picsum.photos/seed/p' . $product->product_id . '/600/500';
+                        }
                     @endphp
                     <img id="main-image" src="{{ $mainImage }}" class="img-fluid rounded" alt="{{ $product->name }}"
                         style="width: 100%; max-height: 500px; object-fit: contain;"
@@ -26,9 +31,12 @@
                 @if($product->images->count() > 1)
                     <div class="d-flex gap-2 mt-3 p-3 flex-wrap">
                         @foreach($product->images as $image)
-                            <img src="{{ $image->image_path }}" class="thumbnail-img {{ $image->is_main ? 'active' : '' }}"
+                            @php
+                                $imgPath = Str::startsWith($image->image_path, 'http') ? $image->image_path : asset($image->image_path);
+                            @endphp
+                            <img src="{{ $imgPath }}" class="thumbnail-img {{ $image->is_main ? 'active' : '' }}"
                                 style="width: 80px; height: 80px; object-fit: cover; cursor: pointer; border: 2px solid {{ $image->is_main ? '#0d6efd' : '#ddd' }}; border-radius: 6px;"
-                                onclick="document.getElementById('main-image').src='{{ $image->image_path }}'; document.querySelectorAll('.thumbnail-img').forEach(i => i.style.borderColor='#ddd'); this.style.borderColor='#0d6efd';">
+                                onclick="document.getElementById('main-image').src='{{ $imgPath }}'; document.querySelectorAll('.thumbnail-img').forEach(i => i.style.borderColor='#ddd'); this.style.borderColor='#0d6efd';">
                         @endforeach
                     </div>
                 @endif
@@ -174,7 +182,7 @@
             } else {
                 // Fix: stock_qty je v inventory relácii, nie priamo na variante (pokiaľ nie je v appends)
                 const stockQty = variant.inventory ? variant.inventory.stock_qty : 0;
-                
+
                 if (stockQty > 0) {
                     stockEl.innerHTML = `<span class="text-success"><i class="bi bi-check-circle"></i> Skladom (${stockQty} ks)</span>`;
                 } else {
@@ -197,7 +205,7 @@
                 const variant = variants.find(v => v.color === selectedColor && v.size_eu === selectedSize && v.is_active === 1);
                 if (variant) {
                     const stockQty = variant.inventory ? variant.inventory.stock_qty : 0;
-                    
+
                     if (stockQty < qty) {
                         alert(`Na sklade je len ${stockQty} ks.`);
                         return;
