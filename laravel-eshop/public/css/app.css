@@ -4,59 +4,107 @@
  */
 
 /* ==============================================
-   1. ZÁKLADNÉ FARBY A PREMENNÉ
+   1. ZÁKLADNÉ FARBY A PREMENNÉ - FOOTSHOP STYLE
    ============================================== */
 :root {
-    --primary-color: #0d6efd;
-    --primary-dark: #0b5ed7;
-    --secondary-color: #6c757d;
-    --success-color: #198754;
-    --danger-color: #dc3545;
-    --light-bg: #f8f9fa;
-    --border-color: #dee2e6;
-    --shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-    --shadow-md: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    --primary-color: #000000;
+    --primary-dark: #1a1a1a;
+    --secondary-color: #6b6b6b;
+    --accent-color: #ffffff;
+    --success-color: #2d2d2d;
+    --danger-color: #333333;
+    --light-bg: #f5f5f5;
+    --dark-bg: #0a0a0a;
+    --border-color: #e0e0e0;
+    --text-primary: #000000;
+    --text-secondary: #666666;
+    --text-light: #ffffff;
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+    --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.12);
     --transition-fast: 0.2s ease;
 }
 
 /* ==============================================
-   1.1 GLOBÁLNE & POZADIE
+   1.1 GLOBÁLNE & POZADIE - FOOTSHOP MATTE STYLE
    ============================================== */
 body {
-    background-color: #f8f9fa !important;
-    /* Výrazné gradienty pre viditeľný efekt */
-    background-image:
-        radial-gradient(circle at 0% 0%, rgba(13, 110, 253, 0.25) 0%, transparent 60%),
-        radial-gradient(circle at 100% 0%, rgba(220, 53, 69, 0.2) 0%, transparent 60%),
-        radial-gradient(circle at 50% 100%, rgba(13, 202, 240, 0.15) 0%, transparent 60%) !important;
-    background-attachment: fixed;
-    color: #2d3748;
+    background-color: #f5f5f5 !important;
+    background-image: none !important;
+    color: var(--text-primary);
     min-height: 100vh;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-/* Glassmorphism Navbar */
+/* Dark Navbar - Footshop Style */
 .navbar {
-    background-color: rgba(255, 255, 255, 0.9) !important;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.02) !important;
+    background-color: #000000 !important;
+    backdrop-filter: none;
+    border-bottom: none;
+    box-shadow: none !important;
     position: relative;
     z-index: 1030;
+    padding: 1rem 0;
+}
+
+.navbar .nav-link,
+.navbar .navbar-nav .nav-link {
+    color: #ffffff !important;
+    font-weight: 500;
+    transition: opacity 0.2s ease;
+}
+
+.navbar .nav-link:hover {
+    opacity: 0.7;
 }
 
 .navbar-brand {
-    background: linear-gradient(135deg, #0d6efd 0%, #6610f2 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: #ffffff !important;
+    font-weight: 700;
+    font-size: 1.25rem;
+    background: none;
+    -webkit-text-fill-color: #ffffff;
 }
 
-/* Footer upravený pre splynutie */
+.navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.navbar-toggler-icon {
+    filter: invert(1);
+}
+
+.navbar .dropdown-menu {
+    background-color: #1a1a1a;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.navbar .dropdown-item {
+    color: #ffffff;
+}
+
+.navbar .dropdown-item:hover {
+    background-color: #333333;
+}
+
+/* Dark Footer - Footshop Style */
 footer {
-    background-color: white !important;
-    border-top: 1px solid rgba(0, 0, 0, 0.05) !important;
-    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.03);
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    border-top: none !important;
+    box-shadow: none;
+    padding: 3rem 0 !important;
+}
+
+footer h6 {
+    color: #ffffff;
+    font-weight: 600;
+}
+
+footer p,
+footer .text-muted {
+    color: #999999 !important;
 }
 
 /* ==============================================
@@ -451,12 +499,12 @@ footer {
 }
 
 /* ==============================================
-   19. HERO BANNER - NOVÝ DIZAJN
+   19. HERO BANNER - FOOTSHOP STYLE (BLACK/WHITE)
    ============================================== */
 .hero-banner {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f857a6 100%);
-    border-radius: 20px;
-    padding: 60px 40px;
+    background: #000000;
+    border-radius: 0;
+    padding: 80px 40px;
     position: relative;
     overflow: hidden;
 }
@@ -464,24 +512,21 @@ footer {
 .hero-banner::before {
     content: '';
     position: absolute;
-    top: -50%;
-    right: -50%;
-    width: 100%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
-    animation: pulse-bg 4s ease-in-out infinite;
+    top: 0;
+    right: 0;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.03) 100%);
 }
 
 @keyframes pulse-bg {
 
     0%,
     100% {
-        transform: scale(1);
         opacity: 0.5;
     }
 
     50% {
-        transform: scale(1.1);
         opacity: 0.8;
     }
 }
@@ -492,10 +537,9 @@ footer {
 }
 
 .text-gradient {
-    background: linear-gradient(to right, #fff, #ffd9ec);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: #ffffff;
+    background: none;
+    -webkit-text-fill-color: #ffffff;
 }
 
 .hero-stats {
@@ -541,15 +585,15 @@ footer {
 }
 
 .category-men {
-    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    background: #1a1a1a;
 }
 
 .category-women {
-    background: linear-gradient(135deg, #f857a6, #ff5858);
+    background: #333333;
 }
 
 .category-unisex {
-    background: linear-gradient(135deg, #11998e, #38ef7d);
+    background: #2a2a2a;
 }
 
 .category-icon {
@@ -951,7 +995,7 @@ footer {
     height: 44px;
     border-radius: 50%;
     border: none;
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: #000000;
     color: white;
     font-size: 1.2rem;
     cursor: pointer;
@@ -963,7 +1007,7 @@ footer {
 
 .btn-add-cart:hover {
     transform: scale(1.1);
-    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
 /* ==============================================
@@ -1038,4 +1082,88 @@ footer {
     .size-grid {
         grid-template-columns: repeat(3, 1fr);
     }
+}
+
+/* ==============================================
+   27. MODERN PAGINATION - FOOTSHOP STYLE
+   ============================================== */
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.pagination .page-item .page-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    height: 44px;
+    padding: 0 16px;
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    color: #000000;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.pagination .page-item .page-link:hover {
+    background: #000000;
+    border-color: #000000;
+    color: #ffffff;
+}
+
+.pagination .page-item.active .page-link {
+    background: #000000;
+    border-color: #000000;
+    color: #ffffff;
+}
+
+.pagination .page-item.disabled .page-link {
+    background: #f5f5f5;
+    border-color: #e0e0e0;
+    color: #999999;
+    cursor: not-allowed;
+}
+
+/* Primary button override for B/W theme */
+.btn-primary {
+    background-color: #000000;
+    border-color: #000000;
+    color: #ffffff;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background-color: #333333;
+    border-color: #333333;
+    color: #ffffff;
+}
+
+/* Active state buttons */
+.btn-selected,
+.color-option.active,
+.size-option.active,
+.size-btn.active,
+.gender-btn.active,
+.category-chip.active {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    border-color: #000000 !important;
+}
+
+/* Filter apply button */
+.btn-filter-apply {
+    background: #000000;
+    color: #ffffff;
+    border: none;
+}
+
+.btn-filter-apply:hover {
+    background: #333333;
 }

@@ -42,6 +42,13 @@
                 value="{{ old('sku_model', $product->sku_model ?? '') }}" maxlength="84">
         </div>
     </div>
+    <div class="col-md-12">
+        <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="is_active" name="is_active" value="1"
+                {{ old('is_active', $product->is_active ?? true) ? 'checked' : '' }}>
+            <label class="form-check-label" for="is_active">Aktívny produkt (zobraziť na stránke)</label>
+        </div>
+    </div>
 </div>
 
 <div class="row">

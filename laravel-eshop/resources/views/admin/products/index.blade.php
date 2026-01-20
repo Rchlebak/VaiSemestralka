@@ -81,7 +81,7 @@
 
                 <!-- Paginácia -->
                 <div class="mt-3">
-                    {{ $products->links() }}
+                    {{ $products->links('vendor.pagination.bootstrap-5') }}
                 </div>
             @else
                 <div class="alert alert-info">

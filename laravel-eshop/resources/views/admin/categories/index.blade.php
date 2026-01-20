@@ -63,7 +63,7 @@
                     </tbody>
                 </table>
 
-                {{ $categories->links() }}
+                {{ $categories->links('vendor.pagination.bootstrap-5') }}
             @else
                 <div class="text-center py-5">
                     <i class="bi bi-tags text-muted" style="font-size: 3rem;"></i>

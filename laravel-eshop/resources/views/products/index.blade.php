@@ -209,7 +209,7 @@
 
             <!-- Paginácia -->
             <div class="mt-5 d-flex justify-content-center">
-                {{ $products->withQueryString()->links() }}
+                {{ $products->withQueryString()->links('vendor.pagination.bootstrap-5') }}
             </div>
         @else
             <div class="empty-state">

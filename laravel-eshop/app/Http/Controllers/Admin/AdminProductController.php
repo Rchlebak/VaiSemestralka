@@ -333,6 +333,12 @@ class AdminProductController extends Controller
         $allowedMimes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
         $maxSize = 5 * 1024 * 1024; // 5MB
 
+        // Zabezpečiť existenciu priečinka
+        $uploadDir = public_path('products');
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0755, true);
+        }
+
         // 1. Spracovanie HLAVNÉHO obrázka
         if ($request->hasFile('main_image')) {
             $file = $request->file('main_image');
@@ -342,12 +348,14 @@ class AdminProductController extends Controller
                 ProductImage::where('product_id', $product->product_id)
                     ->update(['is_main' => 0]);
 
-                $path = $file->store('products', 'public');
+                // Uložiť priamo do public/products/
+                $filename = uniqid() . '.' . $file->getClientOriginalExtension();
+                $file->move($uploadDir, $filename);
 
                 ProductImage::create([
                     'product_id' => $product->product_id,
-                    'image_path' => 'storage/' . $path,
-                    'is_main' => 1, // Explicitne hlavný
+                    'image_path' => 'products/' . $filename,
+                    'is_main' => 1,
                     'sort_order' => 0,
                 ]);
             }
@@ -362,29 +370,31 @@ class AdminProductController extends Controller
                     continue;
                 }
 
-                $path = $file->store('products', 'public');
+                $filename = uniqid() . '.' . $file->getClientOriginalExtension();
+                $file->move($uploadDir, $filename);
 
                 ProductImage::create([
                     'product_id' => $product->product_id,
-                    'image_path' => 'storage/' . $path,
-                    'is_main' => 0, // Explicitne vedľajší
+                    'image_path' => 'products/' . $filename,
+                    'is_main' => 0,
                     'sort_order' => ++$maxSort,
                 ]);
             }
         }
 
-        // 3. Spracovanie URL (Legacy/Backup) a Base64
+        // 3. Spracovanie URL (z internetu) a Base64
         if ($request->filled('image_urls')) {
             $urls = array_filter(explode("\n", $request->input('image_urls')));
             $maxSort = ProductImage::where('product_id', $product->product_id)->max('sort_order') ?? 0;
 
             foreach ($urls as $url) {
                 $url = trim($url);
+                $imagePath = $url; // Default: priamo URL
 
                 // Detekcia Base64
                 if (preg_match('/^data:image\/(\w+);base64,/', $url, $type)) {
                     $data = substr($url, strpos($url, ',') + 1);
-                    $type = strtolower($type[1]); // jpg, png, gif
+                    $type = strtolower($type[1]);
 
                     if (!in_array($type, ['jpg', 'jpeg', 'png', 'gif', 'webp'])) {
                         continue;
@@ -395,23 +405,21 @@ class AdminProductController extends Controller
                         continue;
                     }
 
-                    $filename = 'products/' . uniqid() . '.' . $type;
-                    Storage::disk('public')->put($filename, $data);
-
-                    // Uloženie cesty k súboru
-                    $url = 'storage/' . $filename;
+                    $filename = uniqid() . '.' . $type;
+                    file_put_contents($uploadDir . '/' . $filename, $data);
+                    $imagePath = 'products/' . $filename;
                 }
                 // Validácia bežnej URL
                 elseif (!filter_var($url, FILTER_VALIDATE_URL)) {
                     continue;
                 }
 
-                // Ak produkt nemá žiadny obrázok, prvý URL bude hlavný (iba ak sme nenahrali main_image)
+                // Ak produkt nemá žiadny obrázok, prvý bude hlavný
                 $hasMain = ProductImage::where('product_id', $product->product_id)->where('is_main', 1)->exists();
 
                 ProductImage::create([
                     'product_id' => $product->product_id,
-                    'image_path' => $url,
+                    'image_path' => $imagePath,
                     'is_main' => !$hasMain ? 1 : 0,
                     'sort_order' => ++$maxSort,
                 ]);
@@ -421,7 +429,7 @@ class AdminProductController extends Controller
             }
         }
 
-        // Fallback: Ak nemáme hlavný obrázok, nastavíme prvý nahraný ako hlavný
+        // Fallback: Ak nemáme hlavný obrázok, nastavíme prvý ako hlavný
         $mainExists = ProductImage::where('product_id', $product->product_id)->where('is_main', 1)->exists();
         if (!$mainExists) {
             $firstImage = ProductImage::where('product_id', $product->product_id)->orderBy('sort_order')->first();
@@ -431,6 +439,7 @@ class AdminProductController extends Controller
             }
         }
     }
+
 
     /**
      * API: Vymaže obrázok (AJAX)

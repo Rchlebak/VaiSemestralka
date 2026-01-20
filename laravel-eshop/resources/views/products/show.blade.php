@@ -18,9 +18,12 @@
                     @php
                         $rawMainImage = $product->main_image ?? null;
                         if ($rawMainImage) {
-                            $mainImage = Str::startsWith($rawMainImage, 'http') ? $rawMainImage : asset($rawMainImage);
+                            // Use root-relative path for local storage, absolute URL for external
+                            $mainImage = Str::startsWith($rawMainImage, 'http')
+                                ? $rawMainImage
+                                : '/' . ltrim($rawMainImage, '/');
                         } else {
-                            $mainImage = 'https://picsum.photos/seed/p' . $product->product_id . '/600/500';
+                            $mainImage = 'https://via.placeholder.com/600x500?text=No+Image';
                         }
                     @endphp
                     <img id="main-image" src="{{ $mainImage }}" class="img-fluid rounded" alt="{{ $product->name }}"
@@ -32,11 +35,14 @@
                     <div class="d-flex gap-2 mt-3 p-3 flex-wrap">
                         @foreach($product->images as $image)
                             @php
-                                $imgPath = Str::startsWith($image->image_path, 'http') ? $image->image_path : asset($image->image_path);
+                                $imgPath = Str::startsWith($image->image_path, 'http')
+                                    ? $image->image_path
+                                    : '/' . ltrim($image->image_path, '/');
                             @endphp
                             <img src="{{ $imgPath }}" class="thumbnail-img {{ $image->is_main ? 'active' : '' }}"
                                 style="width: 80px; height: 80px; object-fit: cover; cursor: pointer; border: 2px solid {{ $image->is_main ? '#0d6efd' : '#ddd' }}; border-radius: 6px;"
-                                onclick="document.getElementById('main-image').src='{{ $imgPath }}'; document.querySelectorAll('.thumbnail-img').forEach(i => i.style.borderColor='#ddd'); this.style.borderColor='#0d6efd';">
+                                onclick="document.getElementById('main-image').src='{{ $imgPath }}'; document.querySelectorAll('.thumbnail-img').forEach(i => i.style.borderColor='#ddd'); this.style.borderColor='#0d6efd';"
+                                onerror="this.src='https://via.placeholder.com/80x80?text=No+Image'">
                         @endforeach
                     </div>
                 @endif
@@ -139,73 +145,68 @@
             id: {{ $product->product_id }},
             name: "{{ addslashes($product->name) }}",
             price: {{ $product->base_price }},
-            image: "{{ $product->main_image ?? 'https://picsum.photos/seed/p' . $product->product_id . '/400/300' }}"
-        };
-
-        const variants = @json($product->variants);
-
+                @php
+                    $jsImage = $product->main_image ?? null;
+                    if ($jsImage && !Str::startsWith($jsImage, 'http')) {
+                        $jsImage = '/' . ltrim($jsImage, '/');
+                    } elseif (!$jsImage) {
+                        $jsImage = 'https://via.placeholder.com/400x300?text=No+Image';
+                    }
+                @endphp
+            image: "{{ $jsImage }}"
+            };
+            const variants = @json($product->variants);
         let selectedColor = null;
-        let selectedSize = null;
-
+            let selectedSize = null;
         function selectColor(color, btn) {
             selectedColor = color;
             document.querySelectorAll('.color-option').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             updateStockInfo();
-        }
-
+            }
         function selectSize(size, btn) {
             selectedSize = size;
             document.querySelectorAll('.size-option').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             updateStockInfo();
-        }
-
+            }
         function changeQty(delta) {
             const input = document.getElementById('quantity');
             let val = parseInt(input.value) + delta;
             if (val < 1) val = 1;
             if (val > 10) val = 10;
             input.value = val;
-        }
-
+            }
         function updateStockInfo() {
             const stockEl = document.getElementById('stock-info');
             if (!selectedColor || !selectedSize) {
                 stockEl.innerHTML = '<span class="text-muted"><i class="bi bi-info-circle"></i> Vyberte farbu a veľkosť</span>';
                 return;
-            }
-
+                }
             const variant = variants.find(v => v.color === selectedColor && v.size_eu === selectedSize && v.is_active === 1);
             if (!variant) {
                 stockEl.innerHTML = '<span class="text-danger"><i class="bi bi-x-circle"></i> Nedostupné</span>';
             } else {
                 // Fix: stock_qty je v inventory relácii, nie priamo na variante (pokiaľ nie je v appends)
-                const stockQty = variant.inventory ? variant.inventory.stock_qty : 0;
-
+                    const stockQty = variant.inventory ? variant.inventory.stock_qty : 0;
                 if (stockQty > 0) {
                     stockEl.innerHTML = `<span class="text-success"><i class="bi bi-check-circle"></i> Skladom (${stockQty} ks)</span>`;
                 } else {
                     stockEl.innerHTML = '<span class="text-warning"><i class="bi bi-clock"></i> Vypredané</span>';
                 }
             }
-        }
-
+            }
         // Inicializácia
-        document.querySelector('.color-option')?.click();
-
+            document.querySelector('.color-option')?.click();
         document.getElementById('add-to-cart-btn')?.addEventListener('click', function () {
-            const qty = parseInt(document.getElementById('quantity').value) || 1;
-
+                const qty = parseInt(document.getElementById('quantity').value) || 1;
             let variantId = null;
             let variantInfo = null;
-            let maxStock = 1000; // Default fallback
-
+                let maxStock = 1000; // Default fallback
             if (selectedColor && selectedSize) {
                 const variant = variants.find(v => v.color === selectedColor && v.size_eu === selectedSize && v.is_active === 1);
                 if (variant) {
-                    const stockQty = variant.inventory ? variant.inventory.stock_qty : 0;
-
+                        const stockQty = variant.inventory ? variant.inventory.stock_qty : 0;
                     if (stockQty < qty) {
                         alert(`Na sklade je len ${stockQty} ks.`);
                         return;
@@ -220,8 +221,7 @@
                 // V našom dátovom modeli majú stock len varianty.
                 alert("Prosím vyberte farbu a veľkosť.");
                 return;
-            }
-
+                }
             if (window.Cart) {
                 window.Cart.addItem({
                     productId: product.id,
@@ -235,5 +235,5 @@
                 });
             }
         });
-    </script>
+        </script>
 @endpush

@@ -19,8 +19,8 @@
         @php
             $rawImg = $product->main_image ?? null;
             $cardImage = $rawImg
-                ? (Str::startsWith($rawImg, 'http') ? $rawImg : asset($rawImg))
-                : 'https://picsum.photos/seed/p' . $product->product_id . '/400/300';
+                ? (Str::startsWith($rawImg, 'http') ? $rawImg : '/' . ltrim($rawImg, '/'))
+                : 'https://via.placeholder.com/400x300?text=No+Image';
         @endphp
         <img src="{{ $cardImage }}" alt="{{ $product->name }}"
             onerror="this.src='https://via.placeholder.com/400x300?text=No+Image'" loading="lazy">
