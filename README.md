@@ -99,4 +99,4 @@ laravel-eshop/
 - **MVC:** Striktné oddelenie logiky.
 
 ---
-*Autor: Semestrálny projekt - VAI*
+*Autor: Richard Chlebak*
