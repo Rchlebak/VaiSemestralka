@@ -99,4 +99,5 @@ laravel-eshop/
 - **MVC:** Striktné oddelenie logiky.
 
 ---
+Pri tejto práci bola využívaná AI 
 *Autor: Richard Chlebak*
