@@ -1,0 +1,105 @@
+
+Hodnotenie semestrálnej práce - Analýza súladu s požiadavkami
+
+Nižšie uvádzam podrobnú analýzu projektu na základe povinných požiadaviek pre semestrálnu prácu.
+
+1. Uloženie projektu v GIT
+   [SPLNENÉ]
+   - Projekt obsahuje .git priečinok a .gitattributes/.gitignore súbory.
+
+2. Aspoň 10 vlastných CSS pravidiel (externe pripojené)
+   [SPLNENÉ]
+   - Súbor: `public/css/admin.css`
+   - Rozsah: Viac ako 130 riadkov vlastných štýlov pre admin panel (sidebar, karty, tabuľky).
+   - Poznámka: Projekt navyše používa Tailwind CSS pre frontend (`resources/css/app.css`).
+
+3. Implementované základné rozloženie webu (layout), responzívny dizajn
+   [SPLNENÉ]
+   - Frontend Layout: `resources/views/layouts/app.blade.php`
+   - Admin Layout: `resources/views/layouts/admin.blade.php`
+   - Responzivita: Riešená pomocou Tailwind tried (Frontend) a Flexbox/Media queries (Admin).
+
+4. Implementované všetky CRUD operácie na strane servera (vrátane GUI)
+   [SPLNENÉ]
+   - Entity: Produkty (`AdminProductController`) a Kategórie (`AdminCategoryController`).
+   - Operácie: Create, Read, Update, Delete sú implementované a majú priradené routes v key `admin.*`.
+   - GUI: Existujú Blade šablóny pre formuláre (`_form.blade.php`, `create.blade.php`, `edit.blade.php`).
+
+5. Kontrola formulárových prvkov na strane klienta
+   [SPLNENÉ]
+   - Validácia vstupov v JS: `public/js/admin.js` (kontrola číselných hodnôt pre sklad, validácia typu a veľkosti súborov pri uploade).
+
+6. Kontrola formulárových prvkov na strane servera
+   [SPLNENÉ]
+   - Validácia v controlleroch (napr. `AdminProductController::store` používa `$request->validate(...)`).
+   - Kontrolujú sa povinné polia, dátové typy, unikátnosť (SKU) a formát obrázkov.
+
+7. Netriviálny JavaScript
+   [SPLNENÉ]
+   - Súbor: `public/js/product-filter.js` (cca 400 riadkov) - komplexné filtrovanie, debouncing.
+   - Súbor: `public/js/cart.js` (cca 340 riadkov) - správa košíka (Module pattern, localStorage).
+
+---
+
+● Ďalšie požiadavky na semestrálnu prácu (58 bodov)
+
+1. Správne použitie git
+   [SPLNENÉ] - Projekt je versionovaný.
+
+2. Kvalita DB návrhu
+   [SPLNENÉ]
+   - Entity: Products, Variants, Inventory, Categories, Orders, OrderItems, Users.
+   - Normalizácia: Oddelené varianty a inventár, M:N väzba pre produkty a objednávky (cez order_items).
+   - Tabuľky nie sú redundatné.
+
+3. Kontrola všetkých používateľských vstupov na strane servera
+   [SPLNENÉ] - Používa sa Laravel validation mechanizmus.
+
+4. Zabezpečenie aplikácie
+   [SPLNENÉ]
+   - Auth: Vlastná implementácia/Laravel Auth (`UserAuthController`, `Admin\AuthController`).
+   - Middleware: `auth`, `guest`, `admin` pre ochranu routes.
+   - Heslá sú hashované (Laravel default).
+   - SQL Injection : Ošetrené použitím Eloquent ORM (parametrizované queries).
+
+5. 2x zmysluplné použite AJAX volania
+   [SPLNENÉ]
+   - 1. Filtrovanie produktov: `public/js/product-filter.js` (fetchProducts).
+   - 2. In-place editácia skladu: `public/js/admin.js` (updateStockAjax).
+
+6. Aplikácia používa viacero rolí + autorizácia
+   [SPLNENÉ]
+   - Role: Admin a bežný User.
+   - Admin routes sú chránené middlewareom `admin` (`routes/web.php` skupina `admin`).
+
+7. Práca so súbormi (upload, manažment súborov)
+   [SPLNENÉ]
+   - Upload: `AdminProductController` spracováva upload obrázkov.
+   - Frontend: Drag & drop zóna v `public/js/admin.js` (`ImageUploadModule`).
+   - Mazanie: Funkcia `deleteImage`.
+
+8. Aplikačná logika oddelená od prezentačnej vrstvy
+   [SPLNENÉ] - Použitá MVC architektúra (Laravel).
+
+9. Min. 5 dynamických stránok
+   [SPLNENÉ]
+   - Homepage, Shop, Product Detail, Cart/Checkout, Admin Dashboard, Admin Products, Admin Categories.
+
+10. Min. 50 vlastných riadkov kódu v Javascripte
+    [SPLNENÉ] - Spolu viac ako 700 riadkov vlastného JS kódu.
+
+11. Min. 3 zmysluplné DB entity
+    [SPLNENÉ] - Products, Categories, Orders (plus ďalšie ako Variants, Inventory).
+
+12. Aspoň jeden 1:N alebo M:N vzťah
+    [SPLNENÉ]
+    - 1:N: Category -> Products.
+    - M:N: Orders -> Products (realizované cez OrderItems).
+
+13. Aplikácia musí obsahovať časť, do ktorej je nutné sa prihlásiť
+    [SPLNENÉ] - Admin sekcia a User profil.
+
+14. Návod na inštaláciu (README.md)
+    [SPLNENÉ] - Súbor README.md existuje.
+
+Záver: Aplikácia spĺňa všetky uvedené povinné požiadavky na semestrálnu prácu.
