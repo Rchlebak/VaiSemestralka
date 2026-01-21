@@ -98,4 +98,13 @@ Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
     Route::get('/categories/{id}/edit', [AdminCategoryController::class, 'edit'])->name('categories.edit');
     Route::put('/categories/{id}', [AdminCategoryController::class, 'update'])->name('categories.update');
     Route::delete('/categories/{id}', [AdminCategoryController::class, 'destroy'])->name('categories.destroy');
+
+    // Používatelia
+    Route::get('/users', [\App\Http\Controllers\Admin\AdminUserController::class, 'index'])->name('users.index');
+    Route::put('/users/{id}/password', [\App\Http\Controllers\Admin\AdminUserController::class, 'updatePassword'])->name('users.password');
+    Route::delete('/users/{id}', [\App\Http\Controllers\Admin\AdminUserController::class, 'destroy'])->name('users.destroy');
+
+    // Objednávky
+    Route::get('/orders', [\App\Http\Controllers\Admin\AdminOrderController::class, 'index'])->name('orders.index');
+    Route::get('/orders/{id}', [\App\Http\Controllers\Admin\AdminOrderController::class, 'show'])->name('orders.show');
 });

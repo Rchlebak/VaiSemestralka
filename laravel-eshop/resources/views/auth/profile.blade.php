@@ -130,6 +130,112 @@
                     </form>
                 </div>
             </div>
+
+            {{-- Moje objednávky --}}
+            <div class="card shadow-sm mt-4">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="bi bi-bag-check"></i> Moje objednávky</h5>
+                </div>
+                <div class="card-body">
+                    @if($orders->count() > 0)
+                        @foreach($orders as $order)
+                            <div class="card mb-3 border">
+                                <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <strong>Objednávka #{{ (int)$order->order_id }}</strong>
+                                        <span class="text-muted ms-2">{{ $order->created_at ?? 'N/A' }}</span>
+                                    </div>
+                                    <div>
+                                        @php
+                                            $statusColors = [
+                                                'pending' => 'warning',
+                                                'confirmed' => 'info',
+                                                'shipped' => 'primary',
+                                                'delivered' => 'success',
+                                                'cancelled' => 'danger'
+                                            ];
+                                            $statusLabels = [
+                                                'pending' => 'Čaká na spracovanie',
+                                                'confirmed' => 'Potvrdená',
+                                                'shipped' => 'Odoslaná',
+                                                'delivered' => 'Doručená',
+                                                'cancelled' => 'Zrušená'
+                                            ];
+                                        @endphp
+                                        <span class="badge bg-{{ $statusColors[$order->status] ?? 'secondary' }}">
+                                            {{ $statusLabels[$order->status] ?? $order->status }}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    {{-- Doručovacia adresa --}}
+                                    <div class="mb-3 p-2 bg-light rounded">
+                                        <small class="text-muted d-block mb-1"><i class="bi bi-geo-alt"></i> Doručovacia adresa:</small>
+                                        <strong>{{ $order->ship_name }}</strong><br>
+                                        {{ $order->ship_street }}, {{ $order->ship_zip }} {{ $order->ship_city }}, {{ $order->ship_country }}
+                                    </div>
+
+                                    {{-- Položky objednávky --}}
+                                    <table class="table table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th>Produkt</th>
+                                                <th class="text-center">Veľkosť</th>
+                                                <th class="text-center">Farba</th>
+                                                <th class="text-center">Ks</th>
+                                                <th class="text-end">Cena</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($order->items as $item)
+                                                <tr>
+                                                    <td>
+                                                        @if($item->variant && $item->variant->product)
+                                                            @php
+                                                                $product = $item->variant->product;
+                                                                $mainImage = $product->images->where('is_main', 1)->first() ?? $product->images->first();
+                                                            @endphp
+                                                            <div class="d-flex align-items-center">
+                                                                @if($mainImage)
+                                                                    <img src="{{ $mainImage->image_path }}" 
+                                                                         alt="{{ $product->name }}" 
+                                                                         class="me-2 rounded" 
+                                                                         style="width: 40px; height: 40px; object-fit: cover;">
+                                                                @endif
+                                                                <span>{{ $product->name }}</span>
+                                                            </div>
+                                                        @else
+                                                            <span class="text-muted">Produkt nedostupný</span>
+                                                        @endif
+                                                    </td>
+                                                    <td class="text-center">{{ $item->variant->size_eu ?? '-' }}</td>
+                                                    <td class="text-center">{{ $item->variant->color ?? '-' }}</td>
+                                                    <td class="text-center">{{ $item->qty }}</td>
+                                                    <td class="text-end">{{ number_format($item->line_total, 2) }} €</td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                        <tfoot>
+                                            <tr class="table-light">
+                                                <th colspan="4" class="text-end">Celkom:</th>
+                                                <th class="text-end">{{ number_format($order->total_amount, 2) }} €</th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        @endforeach
+                    @else
+                        <div class="text-center py-4">
+                            <i class="bi bi-bag-x display-4 text-muted"></i>
+                            <p class="text-muted mt-2">Zatiaľ nemáte žiadne objednávky</p>
+                            <a href="{{ route('products.index') }}" class="btn btn-primary">
+                                <i class="bi bi-cart"></i> Nakupovať
+                            </a>
+                        </div>
+                    @endif
+                </div>
+            </div>
         </div>
     </div>
 

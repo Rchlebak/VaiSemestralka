@@ -33,6 +33,14 @@
                     class="list-group-item list-group-item-action {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}">
                     <i class="bi bi-tags"></i> Kategórie
                 </a>
+                <a href="{{ route('admin.orders.index') }}"
+                    class="list-group-item list-group-item-action {{ request()->routeIs('admin.orders.*') ? 'active' : '' }}">
+                    <i class="bi bi-receipt"></i> Objednávky
+                </a>
+                <a href="{{ route('admin.users.index') }}"
+                    class="list-group-item list-group-item-action {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
+                    <i class="bi bi-people"></i> Používatelia
+                </a>
                 <a href="{{ route('home') }}"
                     class="list-group-item list-group-item-action mt-auto border-top border-secondary opacity-75">
                     <i class="bi bi-shop"></i> Zobraziť obchod

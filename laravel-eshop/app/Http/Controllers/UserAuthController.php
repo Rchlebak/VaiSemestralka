@@ -144,8 +144,17 @@ class UserAuthController extends Controller
      */
     public function profile(): View
     {
+        $user = Auth::user();
+
+        // Načítanie objednávok používateľa s položkami a produktmi
+        $orders = \App\Models\Order::where('user_id', $user->user_id)
+            ->with(['items.variant.product.images'])
+            ->orderBy('order_id', 'desc')
+            ->get();
+
         return view('auth.profile', [
-            'user' => Auth::user()
+            'user' => $user,
+            'orders' => $orders
         ]);
     }
 
