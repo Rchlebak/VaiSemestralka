@@ -56,13 +56,15 @@
                                                     </button>
                                                 </form>
                                             @endif
-                                            <form action="{{ route('admin.images.destroy', $image->image_id) }}" method="POST"
-                                                onsubmit="return confirm('Vymazať obrázok?')">
+                                            <button type="button" class="btn btn-sm btn-outline-danger btn-delete-image"
+                                                data-image-id="{{ $image->image_id }}">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                            <form id="delete-image-form-{{ $image->image_id }}"
+                                                action="{{ route('admin.images.destroy', $image->image_id) }}" method="POST"
+                                                class="d-none">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-outline-danger">
-                                                    <i class="bi bi-trash"></i>
-                                                </button>
                                             </form>
                                         </div>
                                     </div>
@@ -105,13 +107,16 @@
                                             </div>
 
                                             <!-- Delete -->
-                                            <form action="{{ route('admin.variants.destroy', $variant->variant_id) }}" method="POST"
-                                                onsubmit="return confirm('Vymazať variant?')">
+                                            <button type="button" class="btn btn-sm btn-outline-danger btn-delete-variant"
+                                                data-variant-id="{{ $variant->variant_id }}"
+                                                data-variant-info="{{ $variant->color }} / {{ $variant->size_eu }}">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                            <form id="delete-variant-form-{{ $variant->variant_id }}"
+                                                action="{{ route('admin.variants.destroy', $variant->variant_id) }}" method="POST"
+                                                class="d-none">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-outline-danger">
-                                                    <i class="bi bi-trash"></i>
-                                                </button>
                                             </form>
                                         </div>
                                     </div>
@@ -153,4 +158,92 @@
             </div>
         </div>
     </div>
+
+    <!-- Delete Variant Confirmation Modal -->
+    <div class="modal fade" id="deleteVariantModal" tabindex="-1" aria-labelledby="deleteVariantModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title" id="deleteVariantModalLabel">
+                        <i class="bi bi-exclamation-triangle text-danger me-2"></i>Potvrdiť vymazanie
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavrieť"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Naozaj chcete vymazať variant <strong id="deleteVariantInfo"></strong>?</p>
+                    <p class="text-muted small">Táto akcia sa nedá vrátiť späť.</p>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zrušiť</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteVariantBtn">
+                        <i class="bi bi-trash me-1"></i>Vymazať
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Image Confirmation Modal -->
+    <div class="modal fade" id="deleteImageModal" tabindex="-1" aria-labelledby="deleteImageModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title" id="deleteImageModalLabel">
+                        <i class="bi bi-exclamation-triangle text-danger me-2"></i>Potvrdiť vymazanie
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavrieť"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Naozaj chcete vymazať tento obrázok?</p>
+                    <p class="text-muted small">Táto akcia sa nedá vrátiť späť.</p>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zrušiť</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteImageBtn">
+                        <i class="bi bi-trash me-1"></i>Vymazať
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // === VARIANT DELETE ===
+            let deleteVariantId = null;
+            const deleteVariantModal = new bootstrap.Modal(document.getElementById('deleteVariantModal'));
+
+            document.querySelectorAll('.btn-delete-variant').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    deleteVariantId = this.dataset.variantId;
+                    document.getElementById('deleteVariantInfo').textContent = this.dataset.variantInfo;
+                    deleteVariantModal.show();
+                });
+            });
+
+            document.getElementById('confirmDeleteVariantBtn').addEventListener('click', function () {
+                if (deleteVariantId) {
+                    document.getElementById('delete-variant-form-' + deleteVariantId).submit();
+                }
+            });
+
+            // === IMAGE DELETE ===
+            let deleteImageId = null;
+            const deleteImageModal = new bootstrap.Modal(document.getElementById('deleteImageModal'));
+
+            document.querySelectorAll('.btn-delete-image').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    deleteImageId = this.dataset.imageId;
+                    deleteImageModal.show();
+                });
+            });
+
+            document.getElementById('confirmDeleteImageBtn').addEventListener('click', function () {
+                if (deleteImageId) {
+                    document.getElementById('delete-image-form-' + deleteImageId).submit();
+                }
+            });
+        });
+    </script>
 @endsection

@@ -34,6 +34,18 @@ class CategorySeeder extends Seeder
                 'description' => 'Pohodlná obuv na každý deň.',
                 'sort_order' => 4,
             ],
+            [
+                'name' => 'Zimné tenisky',
+                'slug' => 'zimne-tenisky',
+                'description' => 'Zateplené tenisky na zimnú sezónu.',
+                'sort_order' => 5,
+            ],
+            [
+                'name' => 'Old-school',
+                'slug' => 'old-school',
+                'description' => 'Retro a vintage štýlové tenisky.',
+                'sort_order' => 6,
+            ],
         ];
 
         foreach ($categories as $cat) {
